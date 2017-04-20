@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_crash_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ececec"
+    android:orientation="vertical">
+
+    <include layout="@layout/crash_toolbar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/crash_ic_show_error" />
+
+        <Button
+            android:id="@+id/btn_restart_app"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="240dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/crash_btn"
+            android:text="重启应用"
+            android:textColor="#505050"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btn_crash_list"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="240dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/crash_btn"
+            android:text="查看崩溃日志"
+            android:textColor="#505050"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
