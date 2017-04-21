@@ -20,7 +20,7 @@
                 android:id="@+id/recycleView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#ffffff" />
+                android:background="@color/crash_white" />
 
         </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -28,7 +28,7 @@
             android:id="@+id/recycleView_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
+            android:background="@color/crash_white"
             android:visibility="gone" />
 
     </RelativeLayout>

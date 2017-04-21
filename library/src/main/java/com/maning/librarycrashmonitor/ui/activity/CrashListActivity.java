@@ -208,13 +208,11 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Log.i("Crash", "onQueryTextSubmit:" + query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.i("Crash", "onQueryTextChange:" + newText);
         //刷新界面
         fileListSearch.clear();
 

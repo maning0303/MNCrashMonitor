@@ -15,7 +15,6 @@ public class CrashBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crash_base);
         StatusBarUtil.setColor(this, getResources().getColor(R.color.crash_tool_bar_color), 50);
         context = this;
     }

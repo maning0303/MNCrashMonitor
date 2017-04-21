@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff">
+    android:background="@color/crash_white">
 
     <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <TextView
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="Crash"
-            android:textColor="#4e4e4e"
+            android:textColor="@color/crash_black_text_color_01"
             android:textSize="16sp" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="10dp"
             android:text="Crash"
-            android:textColor="#8c8c8c"
+            android:textColor="@color/crash_black_text_color_02"
             android:textSize="12sp" />
 
     </LinearLayout>
@@ -39,6 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="1.2px"
         android:layout_alignParentBottom="true"
-        android:background="#DFDFDF" />
+        android:background="@color/crash_line_color" />
 
 </RelativeLayout>

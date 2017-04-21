@@ -3,7 +3,7 @@
     android:id="@+id/activity_crash_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ececec"
+    android:background="@color/crash_background_color"
     android:orientation="vertical">
 
     <include layout="@layout/crash_toolbar" />
@@ -30,7 +30,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/crash_btn"
             android:text="重启应用"
-            android:textColor="#505050"
+            android:textColor="@color/crash_black_text_color_01"
             android:textSize="13sp" />
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/crash_btn"
             android:text="查看崩溃日志"
-            android:textColor="#505050"
+            android:textColor="@color/crash_black_text_color_01"
             android:textSize="13sp" />
 
     </LinearLayout>

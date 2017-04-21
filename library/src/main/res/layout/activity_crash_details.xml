@@ -3,7 +3,7 @@
     android:id="@+id/activity_crash_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@color/crash_white"
     android:orientation="vertical">
 
     <include layout="@layout/crash_toolbar" />
@@ -22,7 +22,7 @@
             android:layout_marginTop="16dp"
             android:paddingBottom="80dp"
             android:text=""
-            android:textColor="#545454"
+            android:textColor="@color/crash_black_text_color_01"
             android:textSize="14sp" />
 
     </ScrollView>
