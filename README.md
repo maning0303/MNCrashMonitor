@@ -11,24 +11,24 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 
 ## 如何添加
-### Gradle添加：
-#### 1.在Project的build.gradle中添加仓库地址
+   ### Gradle添加：
+   #### 1.在Project的build.gradle中添加仓库地址
 
-``` gradle
-	allprojects {
-		repositories {
-			...
-			maven { url "https://jitpack.io" }
-		}
-	}
-```
+   ``` gradle
+   	allprojects {
+   		repositories {
+   			...
+   			maven { url "https://jitpack.io" }
+   		}
+   	}
+   ```
 
-#### 2.在app目录下的build.gradle中添加依赖
-``` gradle
-	dependencies {
-	     compile 'com.github.maning0303:CrashMonitor:V1.0.0'
-	}
-```
+   #### 2.在app目录下的build.gradle中添加依赖
+   ``` gradle
+   	dependencies {
+   	     compile 'com.github.maning0303:CrashMonitor:V1.0.0'
+   	}
+   ```
 
 ## 使用方法:
 ### 1:Application 的 onCreate()方法 初始化：
@@ -43,8 +43,15 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 ```
 
-## 关于:
-###喜欢就Star一下吧!
+### 2:文件的位置:
+``` java
+
+    /Android/data/包名/cache/crashLogs/
+
+```
+
+
+### 喜欢就Star一下吧!
 
 
 ## 感谢:
