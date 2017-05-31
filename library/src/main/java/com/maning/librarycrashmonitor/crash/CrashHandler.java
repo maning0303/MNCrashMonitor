@@ -40,6 +40,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     private Context mContext;
 
+    private boolean isDebug = false;
+
     //构造方法私有，防止外部构造多个实例，即采用单例模式
     private CrashHandler() {
     }
@@ -56,6 +58,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         Thread.setDefaultUncaughtExceptionHandler(this);
         //获取Context，方便内部使用
         mContext = context.getApplicationContext();
+    }
+
+    public void init(Context context, boolean isDebug) {
+        init(context);
+        this.isDebug = isDebug;
     }
 
     /**
@@ -75,7 +82,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
         ex.printStackTrace();
 
         //开启页面
-        MCrashMonitor.startCrashShowPage(mContext);
+        if (isDebug) {
+            MCrashMonitor.startCrashShowPage(mContext);
+        }
 
         //这里可以弹出自己自定义的程序崩溃页面：然后自己干掉自己；
         //如果系统提供了默认的异常处理器，则交给系统去结束我们的程序，否则就由我们自己结束自己

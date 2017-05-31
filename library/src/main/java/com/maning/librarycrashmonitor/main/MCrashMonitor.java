@@ -15,12 +15,10 @@ import com.maning.librarycrashmonitor.ui.activity.CrashShowActivity;
 public class MCrashMonitor {
 
     public static void init(Context context, boolean isDebug) {
-        if (isDebug) {
-            CrashHandler crashHandler = CrashHandler.getInstance();
-            crashHandler.init(context);
-        }
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context, isDebug);
     }
-    
+
     public static void startCrashListPage(Context context) {
         Intent intent = new Intent(context.getApplicationContext(), CrashListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
