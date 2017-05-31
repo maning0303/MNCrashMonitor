@@ -102,9 +102,22 @@ public class CrashHandler implements UncaughtExceptionHandler {
             dir.mkdirs();
         }
         long current = System.currentTimeMillis();
+        //版本号
+        String version = "";
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
+            version = "V" + pi.versionName + "_";
+        } catch (Exception e) {
+
+        }
+        //时间
         String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date(current));
+
+        time = "T" + time;
+
         //以当前时间创建log文件
-        File file = new File(dir, "CrashLog_" + time.trim() + FILE_NAME_SUFFIX);
+        File file = new File(dir, "CrashLog_" + version + time.trim() + FILE_NAME_SUFFIX);
         if (!file.exists()) {
             file.createNewFile();
         }

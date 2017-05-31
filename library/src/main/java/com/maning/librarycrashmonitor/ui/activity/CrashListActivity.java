@@ -75,7 +75,7 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         recycleView_search = (RecyclerView) findViewById(R.id.recycleView_search);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
-        initToolBar(toolbar,"崩溃日志列表");
+        initToolBar(toolbar, "崩溃日志列表");
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -94,9 +94,7 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 getCrashList();
-
             }
         }).start();
 
@@ -111,16 +109,27 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         Collections.sort(fileList, new Comparator<File>() {
             @Override
             public int compare(File file01, File file02) {
-                String date01 = file01.getName().substring(9, file01.getName().length() - 4);
-                String date02 = file02.getName().substring(9, file02.getName().length() - 4);
-                //时间转换为毫秒
-                int time01 = Integer.parseInt(MDateUtil.dataToTime(date01));
-                int time02 = Integer.parseInt(MDateUtil.dataToTime(date02));
-                if (time01 > time02) {
-                    return -1;
+                String[] file01_array = file01.getName().split("T");
+                String[] file02_array = file02.getName().split("T");
+                if (file01_array.length > 1 && file02_array.length > 1) {
+                    String date01 = file01_array[1];
+                    String date02 = file02_array[1];
+                    try {
+                        //时间转换为毫秒
+                        int time01 = Integer.parseInt(MDateUtil.dataToTime(date01));
+                        int time02 = Integer.parseInt(MDateUtil.dataToTime(date02));
+                        if (time01 > time02) {
+                            return -1;
+                        } else {
+                            return 1;
+                        }
+                    } catch (Exception e) {
+                        return 1;
+                    }
                 } else {
                     return 1;
                 }
+
             }
         });
 

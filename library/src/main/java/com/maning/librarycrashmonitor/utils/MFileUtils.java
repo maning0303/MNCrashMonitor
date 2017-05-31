@@ -29,6 +29,9 @@ public class MFileUtils {
     public static List<File> getFileList(File file) {
         List<File> mFileList = new ArrayList<>();
         File[] fileArray = file.listFiles();
+        if (fileArray == null || fileArray.length <= 0) {
+            return mFileList;
+        }
         for (File f : fileArray) {
             if (f.isFile()) {
                 mFileList.add(f);
