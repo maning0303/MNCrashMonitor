@@ -27,7 +27,7 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:CrashMonitor:V1.0.1'
+   	     compile 'com.github.maning0303:CrashMonitor:V1.0.2'
    	}
    ```
 
@@ -55,9 +55,11 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 ### 喜欢就Star一下吧!
 
+### 注意:
+当应用已启动就崩溃的无法打开页面,直接看通知或者去文件夹里面查看:/Android/data/包名/cache/crashLogs/
 
 ## 感谢:
-### 内部使用了一些三方库文件:
+#### 内部使用了一些三方库文件:
 ##### [StatusBarUtil](https://github.com/laobie/StatusBarUtil)
 ##### [NotifyUtil](https://github.com/wenmingvs/NotifyUtil)
 

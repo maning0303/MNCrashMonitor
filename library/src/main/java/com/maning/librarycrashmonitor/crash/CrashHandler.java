@@ -144,8 +144,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
             //导出异常的调用栈信息
             ex.printStackTrace(pw);
 
-            //通知
-            notify_log(time.trim(), Log.getStackTraceString(ex));
+            //Debug才通知
+            if (isDebug) {
+                notify_log(time.trim(), Log.getStackTraceString(ex));
+            }
 
             pw.close();
 
