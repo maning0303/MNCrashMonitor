@@ -27,7 +27,7 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:CrashMonitor:V1.0.2'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.2'
    	}
    ```
 
