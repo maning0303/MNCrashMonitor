@@ -1,6 +1,6 @@
 # CrashMonitor
 Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自己平时调试。
-[![](https://jitpack.io/v/maning0303/CrashMonitor.svg)](https://jitpack.io/#maning0303/CrashMonitor)
+[![](https://jitpack.io/v/maning0303/MNCrashMonitor.svg)](https://jitpack.io/#maning0303/MNCrashMonitor)
 
 ## 截图
 
