@@ -12,8 +12,8 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 
 ## 如何添加
-   ### Gradle添加：
-   #### 1.在Project的build.gradle中添加仓库地址
+### Gradle添加：
+#### 1.在Project的build.gradle中添加仓库地址
 
    ``` gradle
    	allprojects {
@@ -24,7 +24,7 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
    	}
    ```
 
-   #### 2.在app目录下的build.gradle中添加依赖
+#### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
    	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.2'
@@ -66,7 +66,7 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 ## 推荐:
 Name | Describe |
 --- | --- |
-[GankMM](https://github.com/maning0303/GankMM) | （Material Design & MVP & Retrofit + OKHttp & RecyclerView ...）Gank.io Android客户端：每天一张美女图片，一个视频短片，若干Android，iOS等程序干货，周一到周五每天更新，数据全部由 干货集中营 提供。 |
+[GankMM](https://github.com/maning0303/GankMM) | （Material Design & MVP & Retrofit + OKHttp & RecyclerView ...）Gank.io Android客户端：每天一张美女图片，一个视频短片，若干Android，iOS等程序干货，周一到周五每天更新，数据全部由 干货集中营 提供,持续更新。 |
 [MNUpdateAPK](https://github.com/maning0303/MNUpdateAPK) | Android APK 版本更新的下载和安装,适配7.0,简单方便。 |
 [MNImageBrowser](https://github.com/maning0303/MNImageBrowser) | 交互特效的图片浏览框架,微信向下滑动动态关闭 |
 [MNCalendar](https://github.com/maning0303/MNCalendar) | 简单的日历控件练习，水平方向日历支持手势滑动切换，跳转月份；垂直方向日历选取区间范围。 |
@@ -78,4 +78,6 @@ Name | Describe |
 [MNZXingCode](https://github.com/maning0303/MNZXingCode) | 快速集成二维码扫描和生成二维码 |
 [MNChangeSkin](https://github.com/maning0303/MNChangeSkin) | Android夜间模式，通过Theme实现 |
 [SwitcherView](https://github.com/maning0303/SwitcherView) | 垂直滚动的广告栏文字展示。 |
+[MNPasswordEditText](https://github.com/maning0303/MNPasswordEditText) | 类似微信支付宝的密码输入框。 |
+[MNSwipeToLoadDemo](https://github.com/maning0303/MNSwipeToLoadDemo) | 利用SwipeToLoadLayout实现的各种下拉刷新效果（饿了吗，京东，百度外卖，美团外卖，天猫下拉刷新等）。 |
 
