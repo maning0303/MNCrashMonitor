@@ -1,6 +1,7 @@
 package com.maning.librarycrashmonitor.utils;
 
 import android.content.Context;
+import android.os.Environment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -14,15 +15,34 @@ import java.util.List;
 
 public class MFileUtils {
 
-    private static final String TAG = "CrashMonitor";
-
     /**
      * SDCard/Android/data/<application package>/cache
+     * data/data/<application package>/cache
      */
     public static String getCrashLogPath(Context context) {
-        File externalCacheDir = context.getExternalCacheDir();
-        String path = externalCacheDir.getAbsolutePath() + File.separator + "crashLogs";
+        String path = getCachePath(context) + File.separator + "crashLogs";
         return path;
+    }
+
+    /**
+     * 获取app缓存路径
+     * SDCard/Android/data/<application package>/cache
+     * data/data/<application package>/cache
+     *
+     * @param context
+     * @return
+     */
+    public static String getCachePath(Context context) {
+        String cachePath;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+                || !Environment.isExternalStorageRemovable()) {
+            //外部存储可用
+            cachePath = context.getExternalCacheDir().getAbsolutePath();
+        } else {
+            //外部存储不可用
+            cachePath = context.getCacheDir().getAbsolutePath();
+        }
+        return cachePath;
     }
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.maning.librarycrashmonitor.crash.CrashHandler;
+import com.maning.librarycrashmonitor.listener.CrashCallBack;
 import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
 import com.maning.librarycrashmonitor.ui.activity.CrashShowActivity;
 
@@ -14,9 +15,24 @@ import com.maning.librarycrashmonitor.ui.activity.CrashShowActivity;
 
 public class MCrashMonitor {
 
+    public static void init(Context context) {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context);
+    }
+
     public static void init(Context context, boolean isDebug) {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(context, isDebug);
+    }
+
+    public static void init(Context context, CrashCallBack crashCallBacks) {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context, crashCallBacks);
+    }
+
+    public static void init(Context context, boolean isDebug, CrashCallBack crashCallBacks) {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(context, isDebug, crashCallBacks);
     }
 
     public static void startCrashListPage(Context context) {

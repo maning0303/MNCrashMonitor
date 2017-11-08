@@ -1,5 +1,6 @@
 package com.maning.crashmonitor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void btn02(View view) {
         MCrashMonitor.startCrashListPage(this);
+    }
+
+
+    public void btn03(View view) {
+        startActivity(new Intent(this,SecondActivity.class));
     }
 
 }
