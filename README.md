@@ -1,5 +1,5 @@
 # CrashMonitor
-Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自己平时调试。
+CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调试非常方便，可以动态添加日志内容，手机直接查看日志内容可以分享和复制。
 [![](https://jitpack.io/v/maning0303/MNCrashMonitor.svg)](https://jitpack.io/#maning0303/MNCrashMonitor)
 
 ## 截图
@@ -27,7 +27,7 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.3'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.5'
    	}
    ```
 
@@ -53,7 +53,110 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 ```
 
-### 2:文件的位置:
+### 2:其它相关方法介绍：
+
+``` java
+
+        /**
+         * Created by maning on 2017/4/20.
+         * 主类
+         */
+        public class MCrashMonitor {
+
+            /**
+             * 初始化
+             *
+             * @param context 上下文
+             */
+            public static void init(Context context) {
+                MCrashHandler crashHandler = MCrashHandler.getInstance();
+                crashHandler.init(context);
+            }
+
+            /**
+             * 初始化
+             *
+             * @param context 上下文
+             * @param isDebug 是否处于debug状态
+             */
+            public static void init(Context context, boolean isDebug) {
+                MCrashHandler crashHandler = MCrashHandler.getInstance();
+                crashHandler.init(context, isDebug);
+            }
+
+            /**
+             * 初始化
+             *
+             * @param context        上下文
+             * @param crashCallBacks 回调
+             */
+            public static void init(Context context, MCrashCallBack crashCallBacks) {
+                MCrashHandler crashHandler = MCrashHandler.getInstance();
+                crashHandler.init(context, crashCallBacks);
+            }
+
+            /**
+             * 初始化
+             *
+             * @param context        上下文
+             * @param isDebug        是否处于debug状态
+             * @param crashCallBacks 回调
+             */
+            public static void init(Context context, boolean isDebug, MCrashCallBack crashCallBacks) {
+                MCrashHandler crashHandler = MCrashHandler.getInstance();
+                crashHandler.init(context, isDebug, crashCallBacks);
+            }
+
+            /**
+             * 日志列表页面
+             *
+             * @param context
+             */
+            public static void startCrashListPage(Context context) {
+                Intent intent = new Intent(context.getApplicationContext(), CrashListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.getApplicationContext().startActivity(intent);
+            }
+
+            /**
+             * 打开奔溃展示页面
+             *
+             * @param context
+             */
+            public static void startCrashShowPage(Context context) {
+                Intent intent = new Intent(context.getApplicationContext(), CrashShowActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.getApplicationContext().startActivity(intent);
+            }
+
+            /**
+             * 获取日志的路径
+             *
+             * @param context
+             * @return
+             */
+            public static String getCrashLogFilesPath(Context context) {
+                return MFileUtils.getCrashLogPath(context);
+            }
+
+            /**
+             * 设置额外的日志内容，当发生崩溃的时候会写入当前内容到文件开头
+             * 例如L用户手机号码，Token , 网络环境等定制化东西
+             *
+             * @param content 内容
+             */
+            public static void setCrashLogExtraInfo(String content) {
+                if (!TextUtils.isEmpty(content)) {
+                    MCrashHandler crashHandler = MCrashHandler.getInstance();
+                    crashHandler.setExtraContent(content);
+                }
+            }
+
+        }
+
+```
+
+### 文件的位置:
 ``` java
 
     /Android/data/包名/cache/crashLogs/
@@ -62,14 +165,14 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 ```
 
-
-### 喜欢就Star一下吧!
-
 ### 注意:
-当应用已启动就崩溃的无法打开页面,直接看通知或者去文件夹里面查看:
+
+    当应用已启动就崩溃的无法打开页面,直接看通知或者去文件夹里面查看:
     /Android/data/包名/cache/crashLogs/
     或者
     /data/data/包名/cache/crashLogs/
+
+### 喜欢就Star一下吧!
 
 ## 感谢:
 #### 内部使用了一些三方库文件:
