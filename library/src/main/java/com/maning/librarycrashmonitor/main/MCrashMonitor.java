@@ -7,6 +7,7 @@ import com.maning.librarycrashmonitor.crash.CrashHandler;
 import com.maning.librarycrashmonitor.listener.CrashCallBack;
 import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
 import com.maning.librarycrashmonitor.ui.activity.CrashShowActivity;
+import com.maning.librarycrashmonitor.utils.MFileUtils;
 
 /**
  * Created by maning on 2017/4/20.
@@ -48,4 +49,7 @@ public class MCrashMonitor {
         context.getApplicationContext().startActivity(intent);
     }
 
+    public static String getCrashLogFile(Context context) {
+        return MFileUtils.getCrashLogPath(context);
+    }
 }

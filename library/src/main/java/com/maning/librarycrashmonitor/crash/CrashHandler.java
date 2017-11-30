@@ -15,6 +15,7 @@ import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.listener.CrashCallBack;
 import com.maning.librarycrashmonitor.main.MCrashMonitor;
 import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
+import com.maning.librarycrashmonitor.utils.MAppUtils;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
 import com.maning.librarycrashmonitor.utils.MNotifyUtil;
 
@@ -28,19 +29,26 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 public class CrashHandler implements UncaughtExceptionHandler {
-
-    private static final String TAG = "CrashMonitor";
-
-    //log文件的后缀名
-    private static final String FILE_NAME_SUFFIX = ".txt";
-
-    private static CrashHandler sInstance = new CrashHandler();
-
-    //系统默认的异常处理（默认情况下，系统会终止当前的异常程序）
-    private UncaughtExceptionHandler mDefaultCrashHandler;
-
+    //上下文
     private Context mContext;
 
+    //日志Tag
+    private static final String TAG = "CrashMonitor";
+    //时间转换
+    private static final SimpleDateFormat yyyy_MM_dd_hh_mm_ss_DataFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+    //log文件的后缀名
+    private static final String FILE_NAME_SUFFIX = ".txt";
+    //log文件的前缀名
+    private static final String FILE_NAME_PREFIX = "CrashLog_";
+    //实例对象
+    private static final CrashHandler sInstance = new CrashHandler();
+    //系统默认的异常处理（默认情况下，系统会终止当前的异常程序）
+    private static UncaughtExceptionHandler mDefaultCrashHandler;
+    //app版本信息
+    private static String versionName;
+    private static String versionCode;
+    private static String crashTime;
+    private static String crashHead;
     //是否处于Debug状态
     private boolean isDebug = false;
     //回调
@@ -65,8 +73,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
     }
 
     public void init(Context context, boolean isDebug) {
-        init(context);
-        this.isDebug = isDebug;
+        init(context, isDebug, null);
+    }
+
+    public void init(Context context, CrashCallBack crashCallBack) {
+        init(context, false, crashCallBack);
     }
 
     public void init(Context context, boolean isDebug, CrashCallBack crashCallBack) {
@@ -75,10 +86,6 @@ public class CrashHandler implements UncaughtExceptionHandler {
         this.crashCallBack = crashCallBack;
     }
 
-    public void init(Context context, CrashCallBack crashCallBack) {
-        init(context);
-        this.crashCallBack = crashCallBack;
-    }
 
     /**
      * 这个是最关键的函数，当程序中有未被捕获的异常，系统将会自动调用#uncaughtException方法
@@ -86,23 +93,17 @@ public class CrashHandler implements UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+        //初始化相关信息
+        initCrashHead();
 
-        //导出异常信息到SD卡中
-        File file = dumpExceptionToSDCard(ex);
-
-        //回调处理
-        if (crashCallBack != null) {
-            crashCallBack.onCrash(file);
-        }
-
-        //打印出当前调用栈信息
-        ex.printStackTrace();
-
-        //延时1秒杀死进程
-        SystemClock.sleep(1000);
+        //导出异常信息到文件
+        dumpExceptionToFile(ex);
 
         //Debug相关处理
         debugHandler(ex);
+
+        //延时1秒杀死进程
+        SystemClock.sleep(1000);
 
         //这里可以弹出自己自定义的程序崩溃页面：然后自己干掉自己；
         //如果系统提供了默认的异常处理器，则交给系统去结束我们的程序，否则就由我们自己结束自己
@@ -115,8 +116,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     }
 
+    private void dumpExceptionToFile(Throwable ex) {
 
-    private File dumpExceptionToSDCard(Throwable ex) {
         File file = null;
         PrintWriter pw = null;
         try {
@@ -125,33 +126,31 @@ public class CrashHandler implements UncaughtExceptionHandler {
             // data/data/<application package>/cache
             File dir = new File(MFileUtils.getCrashLogPath(mContext));
             if (!dir.exists()) {
-                dir.mkdirs();
+                boolean ok = dir.mkdirs();
+                if (!ok) {
+                    return;
+                }
             }
-            //版本号
-            PackageManager pm = mContext.getPackageManager();
-            PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
-            String version = "V" + pi.versionName + "_";
-            //时间
-            String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date(System.currentTimeMillis()));
-            time = "T" + time;
-
-            //以当前时间创建log文件
-            file = new File(dir, "CrashLog_" + version + time.trim() + FILE_NAME_SUFFIX);
+            //Log文件的名字
+            String fileName = FILE_NAME_PREFIX + "V" + versionName + "_" + crashTime + FILE_NAME_SUFFIX;
+            file = new File(dir, fileName);
             if (!file.exists()) {
-                file.createNewFile();
+                boolean ok = file.createNewFile();
+                if (!ok) {
+                    return;
+                }
             }
-
             //开始写日志
             pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
             //导出发生异常的时间
-            pw.println(time);
-            //导出手机信息
-            dumpPhoneInfo(pw);
-            //换行
-            pw.println();
+            pw.println(crashHead);
             //导出异常的调用栈信息
             ex.printStackTrace(pw);
-
+            Throwable cause = ex.getCause();
+            while (cause != null) {
+                cause.printStackTrace(pw);
+                cause = cause.getCause();
+            }
         } catch (Exception e) {
             Log.e(TAG, "保存日志失败：：" + e.toString());
         } finally {
@@ -159,35 +158,39 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 pw.close();
             }
         }
-        return file;
+        //回调处理
+        if (crashCallBack != null && file != null) {
+            crashCallBack.onCrash(file);
+        }
     }
 
-    private void dumpPhoneInfo(PrintWriter pw) throws NameNotFoundException {
-        //应用的版本名称和版本号
-        PackageManager pm = mContext.getPackageManager();
-        PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
-        pw.print("App Version: ");
-        pw.print(pi.versionName);
-        pw.print('_');
-        pw.println(pi.versionCode);
 
-        //android版本号
-        pw.print("OS Version: ");
-        pw.print(Build.VERSION.RELEASE);
-        pw.print("_");
-        pw.println(Build.VERSION.SDK_INT);
-
-        //手机制造商
-        pw.print("Vendor: ");
-        pw.println(Build.MANUFACTURER);
-
-        //手机型号
-        pw.print("Model: ");
-        pw.println(Build.MODEL);
-
-        //cpu架构
-        pw.print("CPU ABI: ");
-        pw.println(Build.CPU_ABI);
+    private void initCrashHead() {
+        //崩溃时间
+        crashTime = yyyy_MM_dd_hh_mm_ss_DataFormat.format(new Date(System.currentTimeMillis()));
+        //版本信息
+        try {
+            PackageManager pm = mContext.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(),
+                    PackageManager.GET_CONFIGURATIONS);
+            if (pi != null) {
+                versionName = pi.versionName;
+                versionCode = String.valueOf(pi.versionCode);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        crashHead =
+                        "\nCrash Time           : " + crashTime +// 时间
+                        "\nDevice Manufacturer  : " + Build.MANUFACTURER +// 设备厂商
+                        "\nDevice CPU ABI       : " + Build.CPU_ABI +// CPU
+                        "\nDevice Model         : " + Build.MODEL +// 设备型号
+                        "\nAndroid OS Version   : " + Build.VERSION.RELEASE +// 系统版本
+                        "\nAndroid SDK          : " + Build.VERSION.SDK_INT +// SDK版本
+                        "\nApp VersionName      : " + versionName +
+                        "\nApp VersionCode      : " + versionCode +
+                        "\n\n";
+        Log.i(TAG, crashHead);
     }
 
 
@@ -196,13 +199,13 @@ public class CrashHandler implements UncaughtExceptionHandler {
             return;
         }
         //发送通知
-        notify_log(Log.getStackTraceString(ex));
+        notifyLog(Log.getStackTraceString(ex));
         //开启日志详情页面
         MCrashMonitor.startCrashShowPage(mContext);
     }
 
 
-    private void notify_log(String content) {
+    private void notifyLog(String content) {
         //设置想要展示的数据内容
         Intent intent = new Intent(mContext, CrashListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -210,8 +213,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
                 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         int smallIcon = R.drawable.crash_ic_show_error;
         String ticker = "Crash通知";
-        String time = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date(System.currentTimeMillis()));
-        String title = "Crash通知:" + time;
+        String title = "Crash通知:" + crashTime;
         //实例化工具类，并且调用接口
         MNotifyUtil notify2 = new MNotifyUtil(mContext, 1);
         notify2.notify_normail_moreline(pIntent, smallIcon, ticker, title, content, true, true, false);

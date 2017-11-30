@@ -1,11 +1,13 @@
 package com.maning.librarycrashmonitor.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.maning.librarycrashmonitor.R;
+import com.maning.librarycrashmonitor.utils.MFileUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,6 +26,8 @@ public class CrashDetailsActivity extends CrashBaseActivity {
     private TextView textView;
     private Toolbar toolbar;
 
+    private Handler handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,30 +43,28 @@ public class CrashDetailsActivity extends CrashBaseActivity {
     }
 
     private void initDatas() {
-        try {
-            //读取数据
-            StringBuffer sb = new StringBuffer();
-            File file = new File(filePath);
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                content = MFileUtils.readFile2String(filePath);
+                if (handler == null) {
+                    return;
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        textView.setText(content);
+                    }
+                });
             }
-            br.close();
-
-            content = sb.toString();
-            textView.setText(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        }).start();
     }
 
     private void initViews() {
         textView = (TextView) findViewById(R.id.textView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        initToolBar(toolbar,"崩溃详情",R.drawable.crash_ic_arrow_black_24dp);
+        initToolBar(toolbar, "崩溃详情", R.drawable.crash_ic_arrow_black_24dp);
     }
 
     private void initIntent() {
@@ -77,5 +79,12 @@ public class CrashDetailsActivity extends CrashBaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacksAndMessages(null);
+        handler = null;
     }
 }
