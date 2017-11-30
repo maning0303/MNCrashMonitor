@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.maning.librarycrashmonitor.main.MCrashMonitor;
+import com.maning.librarycrashmonitor.MCrashMonitor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void btn03(View view) {
-        startActivity(new Intent(this,SecondActivity.class));
+        startActivity(new Intent(this, SecondActivity.class));
+    }
+
+    public void btn04(View view) {
+        String extraInfo = "用户手机号码：16666666666" +
+                "\n用户网络环境：wifi";
+        MCrashMonitor.setCrashLogExtraInfo(extraInfo);
     }
 
 }

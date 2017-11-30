@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.maning.librarycrashmonitor.R;
-import com.maning.librarycrashmonitor.utils.StatusBarUtil;
+import com.maning.librarycrashmonitor.utils.MStatusBarUtil;
 
 public class CrashBaseActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class CrashBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.crash_tool_bar_color), 50);
+        MStatusBarUtil.setColor(this, getResources().getColor(R.color.crash_tool_bar_color), 50);
         context = this;
     }
 

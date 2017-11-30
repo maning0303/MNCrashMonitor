@@ -1,18 +1,21 @@
 package com.maning.librarycrashmonitor.ui.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
+import com.maning.librarycrashmonitor.utils.MShareUtil;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 /***
  * 崩溃详情页面展示
@@ -64,7 +67,7 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         textView = (TextView) findViewById(R.id.textView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        initToolBar(toolbar, "崩溃详情", R.drawable.crash_ic_arrow_black_24dp);
+        initToolBar(toolbar, "崩溃详情", R.drawable.crash_ic_back_arrow_white_24dp);
     }
 
     private void initIntent() {
@@ -72,13 +75,35 @@ public class CrashDetailsActivity extends CrashBaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.crash_menu2, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
+        if (item.getItemId() == R.id.home) {
+            this.finish();
+            return true;
+        } else if (item.getItemId() == R.id.share) {
+            //分享
+            MShareUtil.shareFile(context, new File(filePath));
+            return true;
+        } else if (item.getItemId() == R.id.copy) {
+            //复制
+            putTextIntoClip();
+            Toast.makeText(context, "复制内容成功", Toast.LENGTH_SHORT).show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void putTextIntoClip() {
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        //创建ClipData对象
+        ClipData clipData = ClipData.newPlainText("CrashLog", content);
+        //添加ClipData对象到剪切板中
+        clipboardManager.setPrimaryClip(clipData);
     }
 
     @Override

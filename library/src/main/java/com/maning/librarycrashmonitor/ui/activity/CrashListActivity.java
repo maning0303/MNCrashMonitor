@@ -1,7 +1,6 @@
 package com.maning.librarycrashmonitor.ui.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,14 +8,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +23,6 @@ import com.maning.librarycrashmonitor.listener.OnItemClickListener;
 import com.maning.librarycrashmonitor.ui.adapter.CrashInfoAdapter;
 import com.maning.librarycrashmonitor.utils.MDateUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
-import com.maning.librarycrashmonitor.utils.StatusBarUtil;
 
 import java.io.File;
 import java.util.ArrayList;

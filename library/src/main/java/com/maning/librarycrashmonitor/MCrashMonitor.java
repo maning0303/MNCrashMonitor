@@ -1,7 +1,8 @@
-package com.maning.librarycrashmonitor.main;
+package com.maning.librarycrashmonitor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.maning.librarycrashmonitor.crash.CrashHandler;
 import com.maning.librarycrashmonitor.listener.CrashCallBack;
@@ -15,6 +16,13 @@ import com.maning.librarycrashmonitor.utils.MFileUtils;
  */
 
 public class MCrashMonitor {
+
+    public static void setCrashLogExtraInfo(String content) {
+        if (!TextUtils.isEmpty(content)) {
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.setExtraContent(content);
+        }
+    }
 
     public static void init(Context context) {
         CrashHandler crashHandler = CrashHandler.getInstance();

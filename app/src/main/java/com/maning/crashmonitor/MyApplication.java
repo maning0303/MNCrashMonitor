@@ -4,7 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.maning.librarycrashmonitor.listener.CrashCallBack;
-import com.maning.librarycrashmonitor.main.MCrashMonitor;
+import com.maning.librarycrashmonitor.MCrashMonitor;
 
 import java.io.File;
 
