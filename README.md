@@ -4,11 +4,11 @@ Debug监听程序崩溃日志,直接页面展示崩溃日志列表，方便自�
 
 ## 截图
 
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_001.png)
+![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_001.jpg)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_002.png)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_003.png)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_004.png)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_005.png)
+![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_004.jpg)
+![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_005.jpg)
 
 
 ## 如何添加
