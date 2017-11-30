@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.maning.librarycrashmonitor.R;
-import com.maning.librarycrashmonitor.listener.OnItemClickListener;
+import com.maning.librarycrashmonitor.listener.MOnItemClickListener;
 
 import java.io.File;
 import java.util.List;
@@ -23,7 +23,7 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private LayoutInflater layoutInflater;
     private List<File> fileList;
 
-    private OnItemClickListener mOnItemClickLitener;
+    private MOnItemClickListener mOnItemClickLitener;
 
     public CrashInfoAdapter(Context context, List<File> fileList) {
         this.context = context;
@@ -31,7 +31,7 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         layoutInflater = LayoutInflater.from(context);
     }
 
-    public void setOnItemClickLitener(OnItemClickListener mOnItemClickLitener) {
+    public void setOnItemClickLitener(MOnItemClickListener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 

@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.maning.librarycrashmonitor.R;
-import com.maning.librarycrashmonitor.listener.OnItemClickListener;
+import com.maning.librarycrashmonitor.listener.MOnItemClickListener;
 import com.maning.librarycrashmonitor.ui.adapter.CrashInfoAdapter;
 import com.maning.librarycrashmonitor.utils.MDateUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
@@ -146,7 +146,7 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         if (crashInfoAdapter == null) {
             crashInfoAdapter = new CrashInfoAdapter(context, fileList);
             recyclerView.setAdapter(crashInfoAdapter);
-            crashInfoAdapter.setOnItemClickLitener(new OnItemClickListener() {
+            crashInfoAdapter.setOnItemClickLitener(new MOnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     Intent intent = new Intent(context, CrashDetailsActivity.class);
@@ -241,7 +241,7 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         if (crashInfoAdapter_search == null) {
             crashInfoAdapter_search = new CrashInfoAdapter(context, fileListSearch);
             recycleView_search.setAdapter(crashInfoAdapter_search);
-            crashInfoAdapter_search.setOnItemClickLitener(new OnItemClickListener() {
+            crashInfoAdapter_search.setOnItemClickLitener(new MOnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     Intent intent = new Intent(context, CrashDetailsActivity.class);

@@ -3,7 +3,7 @@ package com.maning.crashmonitor;
 import android.app.Application;
 import android.util.Log;
 
-import com.maning.librarycrashmonitor.listener.CrashCallBack;
+import com.maning.librarycrashmonitor.listener.MCrashCallBack;
 import com.maning.librarycrashmonitor.MCrashMonitor;
 
 import java.io.File;
@@ -33,7 +33,7 @@ public class MyApplication extends Application {
          * isDebug :    是不是Debug模式,true:崩溃后显示自定义崩溃页面 ;false:关闭应用,不跳转奔溃页面(默认)
          * CrashCallBack : 回调执行
          */
-        MCrashMonitor.init(this, true, new CrashCallBack() {
+        MCrashMonitor.init(this, true, new MCrashCallBack() {
             @Override
             public void onCrash(File file) {
                 //可以在这里重启应用

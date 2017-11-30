@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.maning.librarycrashmonitor.R;
-import com.maning.librarycrashmonitor.listener.CrashCallBack;
+import com.maning.librarycrashmonitor.listener.MCrashCallBack;
 import com.maning.librarycrashmonitor.MCrashMonitor;
 import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
@@ -25,7 +25,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-public class CrashHandler implements UncaughtExceptionHandler {
+public class MCrashHandler implements UncaughtExceptionHandler {
     //上下文
     private Context mContext;
 
@@ -38,7 +38,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
     //log文件的前缀名
     private static final String FILE_NAME_PREFIX = "CrashLog_";
     //实例对象
-    private static final CrashHandler sInstance = new CrashHandler();
+    private static final MCrashHandler sInstance = new MCrashHandler();
     //系统默认的异常处理（默认情况下，系统会终止当前的异常程序）
     private static UncaughtExceptionHandler mDefaultCrashHandler;
     //app版本信息
@@ -49,15 +49,15 @@ public class CrashHandler implements UncaughtExceptionHandler {
     //是否处于Debug状态
     private boolean isDebug = false;
     //回调
-    private CrashCallBack crashCallBack;
+    private MCrashCallBack crashCallBack;
     //额外信息写入
     private String extraContent;
 
     //构造方法私有，防止外部构造多个实例，即采用单例模式
-    private CrashHandler() {
+    private MCrashHandler() {
     }
 
-    public static CrashHandler getInstance() {
+    public static MCrashHandler getInstance() {
         return sInstance;
     }
 
@@ -75,11 +75,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         init(context, isDebug, null);
     }
 
-    public void init(Context context, CrashCallBack crashCallBack) {
+    public void init(Context context, MCrashCallBack crashCallBack) {
         init(context, false, crashCallBack);
     }
 
-    public void init(Context context, boolean isDebug, CrashCallBack crashCallBack) {
+    public void init(Context context, boolean isDebug, MCrashCallBack crashCallBack) {
         init(context);
         this.isDebug = isDebug;
         this.crashCallBack = crashCallBack;
