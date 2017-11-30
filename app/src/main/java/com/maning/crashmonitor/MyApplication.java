@@ -36,7 +36,6 @@ public class MyApplication extends Application {
         MCrashMonitor.init(this, true, new MCrashCallBack() {
             @Override
             public void onCrash(File file) {
-                //可以在这里重启应用
                 //可以在这里保存标识，下次再次进入把日志发送给服务器
                 Log.i(TAG, "CrashMonitor回调:" + file.getAbsolutePath());
             }

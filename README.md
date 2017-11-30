@@ -45,7 +45,6 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
           MCrashMonitor.init(this, true, new CrashCallBack() {
               @Override
               public void onCrash(File file) {
-                  //可以在这里重启应用
                   //可以在这里保存标识，下次再次进入把日志发送给服务器
                   Log.i(TAG, "CrashMonitor回调:" + file.getAbsolutePath());
               }
