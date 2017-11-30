@@ -9,28 +9,54 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:onClick="btn01"
-        android:text="抛出自定义异常" />
+        android:text="抛出自定义异常"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
         android:onClick="btn02"
-        android:text="日志列表页面" />
+        android:text="日志列表页面"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
         android:onClick="btn03"
-        android:text="下一页" />
+        android:text="下一页"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
         android:onClick="btn04"
-        android:text="添加额外的Log信息" />
+        android:text="添加额外的Log信息"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:onClick="btn05"
+        android:text="获取日志保存路径"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="崩溃日志文件夹的路径："
+        android:textColor="#3e3e3e"
+        android:textSize="16sp" />
 
 </LinearLayout>

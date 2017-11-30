@@ -10,7 +10,9 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:onClick="btn01"
-        android:text="抛出自定义异常" />
+        android:text="抛出自定义异常"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>
