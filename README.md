@@ -175,18 +175,18 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
 ```
 
 ### 注意:
+``` java
 
     当应用已启动就崩溃的无法打开页面,直接看通知或者去文件夹里面查看:
-    /Android/data/包名/cache/crashLogs/
-    或者
-    /data/data/包名/cache/crashLogs/
 
-### 喜欢就Star一下吧!
+```
+
+## 喜欢就Star一下吧.
 
 ## 感谢:
-#### 内部使用了一些三方库文件:
 ##### [StatusBarUtil](https://github.com/laobie/StatusBarUtil)
 ##### [NotifyUtil](https://github.com/wenmingvs/NotifyUtil)
+##### [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
 
 ## 推荐:
