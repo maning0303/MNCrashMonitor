@@ -32,7 +32,7 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
    ```
 
 ## 使用方法:
-### 1:Application 的 onCreate()方法 初始化：
+### 1.Application 的 onCreate()方法 初始化：
 
 ``` java
 
@@ -52,7 +52,17 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
 
 ```
 
-### 2:其它相关方法介绍：
+### 2.动态设置其它额外信息到日志中（如用户手机号，wifi状态等信息）：
+
+``` java
+
+        String extraInfo = "用户手机号码：16666666666" +
+                "\n用户网络环境：wifi";
+        MCrashMonitor.setCrashLogExtraInfo(extraInfo);
+
+```
+
+### 3.其它相关方法介绍：
 
 ``` java
 
