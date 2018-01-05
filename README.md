@@ -42,7 +42,7 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
            * isDebug :    是不是Debug模式,true:崩溃后显示自定义崩溃页面 ;false:关闭应用,不跳转奔溃页面(默认)
            * CrashCallBack : 回调执行
            */
-          MCrashMonitor.init(this, true, new CrashCallBack() {
+          MCrashMonitor.init(this, true, new MCrashCallBack() {
               @Override
               public void onCrash(File file) {
                   //可以在这里保存标识，下次再次进入把日志发送给服务器
