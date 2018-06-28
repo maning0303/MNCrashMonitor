@@ -27,7 +27,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.6'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.7'
    	}
    ```
 
@@ -190,7 +190,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 
 ### 版本记录:
     
-    v1.0.6:
+    V1.0.7:
         1.修复详情页返回失效问题
         2.详情页新增生成长截图功能
     
