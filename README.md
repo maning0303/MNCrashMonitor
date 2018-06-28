@@ -1,5 +1,5 @@
-# CrashMonitor
-CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调试非常方便，可以动态添加日志内容，手机直接查看日志内容可以分享和复制。
+# MNCrashMonitor
+MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调试方便,测试人员可以随时给程序猿查看日志详情,可以动态添加日志内容,手机直接查看日志内容可以分享,复制,生成长截图。
 [![](https://jitpack.io/v/maning0303/MNCrashMonitor.svg)](https://jitpack.io/#maning0303/MNCrashMonitor)
 
 ## 截图
@@ -27,7 +27,7 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.5'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.6'
    	}
    ```
 
@@ -174,12 +174,26 @@ CrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表，调
 
 ```
 
+### 生成截图的位置:
+``` java
+
+    Environment.getExternalStorageDirectory() + "/crash_pic_" + System.currentTimeMillis() + ".jpg"
+
+```
+
 ### 注意:
 ``` java
 
     当应用已启动就崩溃的无法打开页面,直接看通知或者去文件夹里面查看:
 
 ```
+
+### 版本记录:
+    
+    v1.0.6:
+        1.修复详情页返回失效问题
+        2.详情页新增生成长截图功能
+    
 
 ## 喜欢就Star一下吧.
 
