@@ -24,4 +24,9 @@
         android:id="@+id/copy"
         android:title="复制"
         app:showAsAction="collapseActionView|ifRoom" />
+
+    <item
+        android:id="@+id/shot"
+        android:title="截图"
+        app:showAsAction="collapseActionView|ifRoom" />
 </menu>

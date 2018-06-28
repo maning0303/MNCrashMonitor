@@ -24,7 +24,11 @@ public class CrashShowActivity extends CrashBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crash_show);
 
-        initViews();
+        try {
+            initViews();
+        } catch (Exception e) {
+
+        }
     }
 
     private void initViews() {

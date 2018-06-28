@@ -29,6 +29,15 @@ public class MFileUtils {
         return path;
     }
 
+    public static String getCrashPicPath() {
+        String path = Environment.getExternalStorageDirectory() + "";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return path;
+    }
+
     /**
      * 获取app缓存路径
      * SDCard/Android/data/<application package>/cache

@@ -53,15 +53,19 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crash_list);
 
-        initViews();
+        try {
+            initViews();
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                initCrashFileList();
-            }
-        });
+            swipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefreshLayout.setRefreshing(true);
+                    initCrashFileList();
+                }
+            });
+        } catch (Exception e) {
+
+        }
 
     }
 
