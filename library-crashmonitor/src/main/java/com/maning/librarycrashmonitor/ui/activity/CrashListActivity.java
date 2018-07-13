@@ -21,7 +21,6 @@ import android.view.View;
 import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.listener.MOnItemClickListener;
 import com.maning.librarycrashmonitor.ui.adapter.CrashInfoAdapter;
-import com.maning.librarycrashmonitor.utils.MDateUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
 
 import java.io.File;
@@ -109,27 +108,18 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
         Collections.sort(fileList, new Comparator<File>() {
             @Override
             public int compare(File file01, File file02) {
-                String[] file01_array = file01.getName().split("T");
-                String[] file02_array = file02.getName().split("T");
-                if (file01_array.length > 1 && file02_array.length > 1) {
-                    String date01 = file01_array[1];
-                    String date02 = file02_array[1];
-                    try {
-                        //时间转换为毫秒
-                        int time01 = Integer.parseInt(MDateUtil.dataToTime(date01));
-                        int time02 = Integer.parseInt(MDateUtil.dataToTime(date02));
-                        if (time01 > time02) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    } catch (Exception e) {
+                try {
+                    //根据修改时间排序
+                    long lastModified01 = file01.lastModified();
+                    long lastModified02 = file02.lastModified();
+                    if (lastModified01 > lastModified02) {
+                        return -1;
+                    } else {
                         return 1;
                     }
-                } else {
+                } catch (Exception e) {
                     return 1;
                 }
-
             }
         });
 

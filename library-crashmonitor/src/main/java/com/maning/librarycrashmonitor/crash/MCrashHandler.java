@@ -24,36 +24,59 @@ import java.io.PrintWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
+/**
+ * @author maning
+ */
 public class MCrashHandler implements UncaughtExceptionHandler {
-    //上下文
-    private Context mContext;
-
-    //日志Tag
+    /**
+     * 日志Tag
+     */
     private static final String TAG = "CrashMonitor";
-    //时间转换
-    private static final SimpleDateFormat yyyy_MM_dd_hh_mm_ss_DataFormat = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-    //log文件的后缀名
+    /**
+     * 上下文
+     */
+    private Context mContext;
+    /**
+     * 时间转换
+     */
+    private static final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒", Locale.CHINA);
+    /**
+     * log文件的后缀名
+     */
     private static final String FILE_NAME_SUFFIX = ".txt";
-    //log文件的前缀名
-    private static final String FILE_NAME_PREFIX = "CrashLog_";
-    //实例对象
+    /**
+     * 实例对象
+     */
     private static final MCrashHandler sInstance = new MCrashHandler();
-    //系统默认的异常处理（默认情况下，系统会终止当前的异常程序）
+    /**
+     * 系统默认的异常处理（默认情况下，系统会终止当前的异常程序）
+     */
     private static UncaughtExceptionHandler mDefaultCrashHandler;
-    //app版本信息
+    /**
+     * app版本信息
+     */
     private String versionName;
     private String versionCode;
     private String crashTime;
     private String crashHead;
-    //是否处于Debug状态
+    /**
+     * 是否处于Debug状态
+     */
     private boolean isDebug = false;
-    //回调
+    /**
+     * 回调
+     */
     private MCrashCallBack crashCallBack;
-    //额外信息写入
+    /**
+     * 额外信息写入
+     */
     private String extraContent;
 
-    //构造方法私有，防止外部构造多个实例，即采用单例模式
+    /**
+     * 构造方法私有，防止外部构造多个实例，即采用单例模式
+     */
     private MCrashHandler() {
     }
 
@@ -61,7 +84,11 @@ public class MCrashHandler implements UncaughtExceptionHandler {
         return sInstance;
     }
 
-    //这里主要完成初始化工作
+    /**
+     * 这里主要完成初始化工作
+     *
+     * @param context
+     */
     public void init(Context context) {
         //获取系统默认的异常处理器
         mDefaultCrashHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -115,6 +142,11 @@ public class MCrashHandler implements UncaughtExceptionHandler {
 
     }
 
+    /**
+     * 崩溃信息写入文件
+     *
+     * @param ex
+     */
     private void dumpExceptionToFile(Throwable ex) {
         File file = null;
         PrintWriter pw = null;
@@ -130,11 +162,11 @@ public class MCrashHandler implements UncaughtExceptionHandler {
                 }
             }
             //Log文件的名字
-            String fileName = FILE_NAME_PREFIX + "V" + versionName + "_T" + crashTime + FILE_NAME_SUFFIX;
+            String fileName = "V" + versionName + "_" + crashTime + FILE_NAME_SUFFIX;
             file = new File(dir, fileName);
             if (!file.exists()) {
-                boolean ok = file.createNewFile();
-                if (!ok) {
+                boolean createNewFileOk = file.createNewFile();
+                if (!createNewFileOk) {
                     return;
                 }
             }
@@ -148,13 +180,18 @@ public class MCrashHandler implements UncaughtExceptionHandler {
             pw.println(crashHead);
             //导出异常的调用栈信息
             ex.printStackTrace(pw);
+            //异常信息
             Throwable cause = ex.getCause();
             while (cause != null) {
                 cause.printStackTrace(pw);
                 cause = cause.getCause();
             }
+            //重新命名文件
+            String newName = "V" + versionName + "_" + crashTime + "_" + ex.toString() + FILE_NAME_SUFFIX;
+            File newFile = new File(dir, newName);
+            MFileUtils.renameFile(file.getPath(), newFile.getPath());
         } catch (Exception e) {
-            Log.e(TAG, "保存日志失败：：" + e.toString());
+            Log.e(TAG, "保存日志失败：" + e.toString());
         } finally {
             if (pw != null) {
                 pw.close();
@@ -168,7 +205,7 @@ public class MCrashHandler implements UncaughtExceptionHandler {
 
     private void initCrashHead() {
         //崩溃时间
-        crashTime = yyyy_MM_dd_hh_mm_ss_DataFormat.format(new Date(System.currentTimeMillis()));
+        crashTime = dataFormat.format(new Date(System.currentTimeMillis()));
         //版本信息
         try {
             PackageManager pm = mContext.getPackageManager();
@@ -181,15 +218,17 @@ public class MCrashHandler implements UncaughtExceptionHandler {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+        //组合Android相关信息
         crashHead =
-                "\nCrash Time           : " + crashTime +// 时间
-                        "\nDevice Manufacturer  : " + Build.MANUFACTURER +// 设备厂商
-                        "\nDevice CPU ABI       : " + Build.CPU_ABI +// CPU
-                        "\nDevice Model         : " + Build.MODEL +// 设备型号
-                        "\nAndroid OS Version   : " + Build.VERSION.RELEASE +// 系统版本
-                        "\nAndroid SDK          : " + Build.VERSION.SDK_INT +// SDK版本
-                        "\nApp VersionName      : " + versionName +
-                        "\nApp VersionCode      : " + versionCode +
+                "\n崩溃的时间\b\b\b:\b\b" + crashTime +
+                        "\n系统硬件商\b\b\b:\b\b" + Build.MANUFACTURER +
+                        "\n设备的品牌\b\b\b:\b\b" + Build.BRAND +
+                        "\n手机的型号\b\b\b:\b\b" + Build.MODEL +
+                        "\n设备版本号\b\b\b:\b\b" + Build.ID +
+                        "\nCPU的类型\b\b\b:\b\b" + Build.CPU_ABI +
+                        "\n系统的版本\b\b\b:\b\b" + Build.VERSION.RELEASE +
+                        "\n系统版本值\b\b\b:\b\b" + Build.VERSION.SDK_INT +
+                        "\n当前的版本\b\b\b:\b\b" + versionName + "—" + versionCode +
                         "\n\n";
     }
 
@@ -204,7 +243,11 @@ public class MCrashHandler implements UncaughtExceptionHandler {
         MCrashMonitor.startCrashShowPage(mContext);
     }
 
-
+    /**
+     * 显示通知
+     *
+     * @param content
+     */
     private void notifyLog(String content) {
         //设置想要展示的数据内容
         Intent intent = new Intent(mContext, CrashListActivity.class);

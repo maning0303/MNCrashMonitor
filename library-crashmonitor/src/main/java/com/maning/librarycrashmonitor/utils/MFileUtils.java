@@ -124,4 +124,18 @@ public class MFileUtils {
         return res;
     }
 
+    /**
+     * 重命名文件
+     *
+     * @param oldPath 原来的文件地址
+     * @param newPath 新的文件地址
+     */
+    public static void renameFile(String oldPath, String newPath) {
+        File oleFile = new File(oldPath);
+        File newFile = new File(newPath);
+        //执行重命名
+        oleFile.renameTo(newFile);
+    }
+
+
 }

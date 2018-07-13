@@ -4,18 +4,21 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ScrollView;
@@ -23,13 +26,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.maning.librarycrashmonitor.R;
+import com.maning.librarycrashmonitor.utils.MActivityListUtil;
 import com.maning.librarycrashmonitor.utils.MBitmapUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
 import com.maning.librarycrashmonitor.utils.MScreenShotUtil;
 import com.maning.librarycrashmonitor.utils.MShareUtil;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /***
  * 崩溃详情页面展示
@@ -38,7 +44,9 @@ public class CrashDetailsActivity extends CrashBaseActivity {
 
     public static final String IntentKey_FilePath = "IntentKey_FilePath";
     private String filePath;
-    private String content;
+    private String crashContent;
+    private String matchErrorInfo;
+    private List<Class> activitiesClass;
 
     private TextView textView;
     private Toolbar toolbar;
@@ -67,18 +75,81 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                content = MFileUtils.readFile2String(filePath);
+                //获取文件夹名字匹配异常信息高亮显示
+                File file = new File(filePath);
+                String[] splitNames = file.getName().replace(".txt", "").split("_");
+                if (splitNames.length >= 3) {
+                    String errorMsg = splitNames[2];
+                    if (!TextUtils.isEmpty(errorMsg)) {
+                        matchErrorInfo = errorMsg;
+                    }
+                }
+                //获取内容
+                crashContent = MFileUtils.readFile2String(filePath);
                 if (handler == null) {
                     return;
                 }
+                //获取所有Activity
+                activitiesClass = MActivityListUtil.getActivitiesClass(context, getPackageName(), null);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        textView.setText(content);
+                        if (textView != null) {
+                            try {
+                                //富文本显示
+                                Spannable spannable = Spannable.Factory.getInstance().newSpannable(crashContent);
+
+                                //匹配错误信息
+                                if (!TextUtils.isEmpty(matchErrorInfo)) {
+                                    addNewSpanable(spannable, matchErrorInfo, Color.parseColor("#FF0006"), 18);
+                                }
+
+                                //匹配包名
+                                String packageName = getPackageName();
+                                addNewSpanable(spannable, packageName, Color.parseColor("#0070BB"), 0);
+
+                                //匹配Activity
+                                if (activitiesClass != null && activitiesClass.size() > 0) {
+                                    for (int i = 0; i < activitiesClass.size(); i++) {
+                                        addNewSpanable(spannable, activitiesClass.get(i).getSimpleName(), Color.parseColor("#55BB63"), 16);
+                                    }
+                                }
+
+                                textView.setText(spannable);
+                            } catch (Exception e) {
+                                textView.setText(crashContent);
+                            }
+                        }
                     }
                 });
             }
         }).start();
+    }
+
+    private void addNewSpanable(Spannable spannable, String matchContent, @ColorInt int foregroundColor, int textSize) {
+        Pattern pattern = Pattern.compile(Pattern.quote(matchContent));
+        Matcher matcher = pattern.matcher(crashContent);
+        while (matcher.find()) {
+            int start = matcher.start();
+            if (start >= 0) {
+                int end = start + matchContent.length();
+                if (textSize > 0) {
+                    spannable.setSpan(new AbsoluteSizeSpan(sp2px(textSize)), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+                }
+                spannable.setSpan(new ForegroundColorSpan(foregroundColor), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            }
+        }
+    }
+
+    /**
+     * sp 转 px
+     *
+     * @param spValue sp 值
+     * @return px 值
+     */
+    public int sp2px(final float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 
     private void initViews() {
@@ -158,10 +229,11 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         }
     }
 
+
     public void putTextIntoClip() {
         ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         //创建ClipData对象
-        ClipData clipData = ClipData.newPlainText("CrashLog", content);
+        ClipData clipData = ClipData.newPlainText("CrashLog", crashContent);
         //添加ClipData对象到剪切板中
         clipboardManager.setPrimaryClip(clipData);
     }

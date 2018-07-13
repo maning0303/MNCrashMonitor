@@ -15,15 +15,21 @@ import java.io.File;
 public class MyApplication extends Application {
 
     private static final String TAG = "MyApplication";
+    private static MyApplication myApplication;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Log.i(TAG, "onCreate");
+        myApplication = this;
+
 
         initCrashMonitor();
 
+    }
+
+    public static MyApplication getInstance(){
+        return myApplication;
     }
 
     private void initCrashMonitor() {

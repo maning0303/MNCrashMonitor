@@ -7,6 +7,7 @@
     android:padding="10dp">
 
     <Button
+        android:id="@+id/btn_throw_exception"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -15,6 +16,7 @@
         android:textColor="#FFFFFF" />
 
     <Button
+        android:id="@+id/btn_log_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -24,6 +26,7 @@
         android:textColor="#FFFFFF" />
 
     <Button
+        android:id="@+id/btn_next_page"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -33,6 +36,7 @@
         android:textColor="#FFFFFF" />
 
     <Button
+        android:id="@+id/btn_add_extra_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -42,6 +46,7 @@
         android:textColor="#FFFFFF" />
 
     <Button
+        android:id="@+id/btn_get_log_path"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
