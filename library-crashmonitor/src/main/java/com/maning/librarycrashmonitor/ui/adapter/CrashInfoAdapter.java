@@ -63,6 +63,13 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         mOnItemClickLitener.onItemClick(view, position);
                     }
                 });
+                myViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        mOnItemClickLitener.onLongClick(view, position);
+                        return false;
+                    }
+                });
             }
 
         }

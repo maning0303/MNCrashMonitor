@@ -42,11 +42,27 @@ import java.util.regex.Pattern;
  */
 public class CrashDetailsActivity extends CrashBaseActivity {
 
+    /**
+     * Intent 传递的文件路径
+     */
     public static final String IntentKey_FilePath = "IntentKey_FilePath";
+    /**
+     * 文件路径
+     */
     private String filePath;
+    /**
+     * 崩溃日志的内容
+     */
     private String crashContent;
+    /**
+     * 具体的异常类型
+     */
     private String matchErrorInfo;
+    /**
+     * 所有Activity的集合
+     */
     private List<Class> activitiesClass;
+
 
     private TextView textView;
     private Toolbar toolbar;
@@ -91,30 +107,32 @@ public class CrashDetailsActivity extends CrashBaseActivity {
                 }
                 //获取所有Activity
                 activitiesClass = MActivityListUtil.getActivitiesClass(context, getPackageName(), null);
+
+                //富文本显示
+                final Spannable spannable = Spannable.Factory.getInstance().newSpannable(crashContent);
+
+                //匹配错误信息
+                if (!TextUtils.isEmpty(matchErrorInfo)) {
+                    addNewSpanable(spannable, matchErrorInfo, Color.parseColor("#FF0006"), 18);
+                }
+
+                //匹配包名
+                String packageName = getPackageName();
+                addNewSpanable(spannable, packageName, Color.parseColor("#0070BB"), 0);
+
+                //匹配Activity
+                if (activitiesClass != null && activitiesClass.size() > 0) {
+                    for (int i = 0; i < activitiesClass.size(); i++) {
+                        addNewSpanable(spannable, activitiesClass.get(i).getSimpleName(), Color.parseColor("#55BB63"), 16);
+                    }
+                }
+
+                //主线程处理
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (textView != null) {
                             try {
-                                //富文本显示
-                                Spannable spannable = Spannable.Factory.getInstance().newSpannable(crashContent);
-
-                                //匹配错误信息
-                                if (!TextUtils.isEmpty(matchErrorInfo)) {
-                                    addNewSpanable(spannable, matchErrorInfo, Color.parseColor("#FF0006"), 18);
-                                }
-
-                                //匹配包名
-                                String packageName = getPackageName();
-                                addNewSpanable(spannable, packageName, Color.parseColor("#0070BB"), 0);
-
-                                //匹配Activity
-                                if (activitiesClass != null && activitiesClass.size() > 0) {
-                                    for (int i = 0; i < activitiesClass.size(); i++) {
-                                        addNewSpanable(spannable, activitiesClass.get(i).getSimpleName(), Color.parseColor("#55BB63"), 16);
-                                    }
-                                }
-
                                 textView.setText(spannable);
                             } catch (Exception e) {
                                 textView.setText(crashContent);
@@ -126,6 +144,14 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         }).start();
     }
 
+    /**
+     * 添加富文本
+     *
+     * @param spannable
+     * @param matchContent    需要匹配的文本
+     * @param foregroundColor 改变颜色
+     * @param textSize        文字大小
+     */
     private void addNewSpanable(Spannable spannable, String matchContent, @ColorInt int foregroundColor, int textSize) {
         Pattern pattern = Pattern.compile(Pattern.quote(matchContent));
         Matcher matcher = pattern.matcher(crashContent);
@@ -152,6 +178,9 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         return (int) (spValue * fontScale + 0.5f);
     }
 
+    /**
+     * 初始化View
+     */
     private void initViews() {
         textView = (TextView) findViewById(R.id.textView);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -213,6 +242,9 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    /**
+     * 保存截图
+     */
     private void saveScreenShot() {
         //生成截图
         Bitmap bitmap = MScreenShotUtil.getBitmapByView(scrollView);
@@ -229,7 +261,9 @@ public class CrashDetailsActivity extends CrashBaseActivity {
         }
     }
 
-
+    /**
+     * 添加到剪切板
+     */
     public void putTextIntoClip() {
         ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         //创建ClipData对象

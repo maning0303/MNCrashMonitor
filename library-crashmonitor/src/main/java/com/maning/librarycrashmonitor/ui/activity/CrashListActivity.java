@@ -148,6 +148,33 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
                     intent.putExtra(CrashDetailsActivity.IntentKey_FilePath, file.getAbsolutePath());
                     startActivity(intent);
                 }
+
+                @Override
+                public void onLongClick(View view, final int position) {
+                    //弹出Dialog是否删除当前
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("提示");
+                    builder.setMessage("是否删除当前日志?");
+                    builder.setNegativeButton("取消", null);
+                    builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            progressDialog = ProgressDialog.show(CrashListActivity.this, "提示", "正在删除...");
+                            progressDialog.show();
+                            //删除单个
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    File file = fileList.get(position);
+                                    MFileUtils.deleteFile(file.getPath());
+                                    //重新获取
+                                    getCrashList();
+                                }
+                            }).start();
+                        }
+                    });
+                    builder.show();
+                }
             });
         } else {
             crashInfoAdapter.updateDatas(fileList);
@@ -186,7 +213,7 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
                     progressDialog = ProgressDialog.show(CrashListActivity.this, "提示", "正在删除...");
                     progressDialog.show();
 
-                    //删除
+                    //删除全部
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -242,6 +269,11 @@ public class CrashListActivity extends CrashBaseActivity implements SwipeRefresh
                     File file = fileList.get(position);
                     intent.putExtra(CrashDetailsActivity.IntentKey_FilePath, file.getAbsolutePath());
                     startActivity(intent);
+                }
+
+                @Override
+                public void onLongClick(View view, int position) {
+
                 }
             });
         } else {
