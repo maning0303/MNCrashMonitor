@@ -1,12 +1,17 @@
 package com.maning.librarycrashmonitor.crash;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,7 +20,6 @@ import com.maning.librarycrashmonitor.listener.MCrashCallBack;
 import com.maning.librarycrashmonitor.MCrashMonitor;
 import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
-import com.maning.librarycrashmonitor.utils.MNotifyUtil;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -249,20 +253,39 @@ public class MCrashHandler implements UncaughtExceptionHandler {
      * @param content
      */
     private void notifyLog(String content) {
-        //设置想要展示的数据内容
-        Intent intent = new Intent(mContext, CrashListActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pIntent = PendingIntent.getActivity(mContext,
-                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        int smallIcon = R.drawable.crash_ic_show_error;
-        String ticker = "Crash通知";
-        String title = "Crash通知:" + crashTime;
-        //实例化工具类，并且调用接口
-        MNotifyUtil notify2 = new MNotifyUtil(mContext, 1);
-        notify2.notify_normail_moreline(pIntent, smallIcon, ticker, title, content, true, true, false);
+        try {
+            //点击跳转的页面
+            Intent intent = new Intent(mContext, CrashListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent pIntent = PendingIntent.getActivity(mContext,
+                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Bitmap crash_ic_notify =  BitmapFactory.decodeResource(mContext.getResources(), R.drawable.crash_ic_notify);
+            //通知
+            NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification notification = new NotificationCompat.Builder(mContext)
+                    .setContentText(content)
+                    .setAutoCancel(true)
+                    .setContentTitle("Crash通知:" + crashTime)
+                    .setSmallIcon(R.drawable.crash_ic_notify)
+                    .setLargeIcon(crash_ic_notify)
+                    .setWhen(System.currentTimeMillis())
+                    .setContentIntent(pIntent)
+                    .build();
+            if (manager != null) {
+                manager.notify(10010, notification);
+            }
+        } catch (Exception e) {
+
+        }
     }
 
     //----------------------华丽分割线----------------------------//
+
+    /**
+     * 设置额外的内容
+     *
+     * @param extraContent
+     */
     public void setExtraContent(String extraContent) {
         this.extraContent = extraContent;
     }

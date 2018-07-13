@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="MCrashAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="actionMenuTextColor">#ffffff</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+</resources>

@@ -7,8 +7,8 @@
     android:background="@color/crash_tool_bar_color"
     android:fitsSystemWindows="true"
     android:minHeight="?attr/actionBarSize"
+    app:titleTextColor="@color/crash_white"
     app:layout_collapseMode="pin">
 
 
-
-</android.support.v7.widget.Toolbar>  
+</android.support.v7.widget.Toolbar>

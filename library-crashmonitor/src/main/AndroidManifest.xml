@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.maning.librarycrashmonitor">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,17 +11,17 @@
         android:supportsRtl="true">
         <activity
             android:name=".ui.activity.CrashListActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/MCrashAppTheme" />
         <activity
             android:name=".ui.activity.CrashDetailsActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/MCrashAppTheme" />
         <activity
             android:name=".ui.activity.CrashShowActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/MCrashAppTheme" />
         <activity
             android:name=".ui.activity.CrashBaseActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/MCrashAppTheme" />
     </application>
 
 </manifest>
