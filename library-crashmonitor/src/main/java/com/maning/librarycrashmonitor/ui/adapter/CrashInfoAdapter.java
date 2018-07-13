@@ -1,7 +1,11 @@
 package com.maning.librarycrashmonitor.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +13,7 @@ import android.widget.TextView;
 
 import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.listener.MOnItemClickListener;
+import com.maning.librarycrashmonitor.utils.MSpannableUtils;
 
 import java.io.File;
 import java.util.List;
@@ -35,9 +40,10 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
-    public void updateDatas(List<File> fileList){
+    public void updateDatas(List<File> fileList) {
         this.fileList = fileList;
-        notifyDataSetChanged();;
+        notifyDataSetChanged();
+        ;
     }
 
     @Override
@@ -52,8 +58,25 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             MyViewHolder myViewHolder = (MyViewHolder) holder;
 
             File file = fileList.get(position);
-            myViewHolder.textView.setText(file.getName());
-            myViewHolder.textView_path.setText(file.getAbsolutePath());
+
+            myViewHolder.tv_path.setText(file.getAbsolutePath());
+
+            //动态修改颜色
+            String fileName = file.getName().replace(".txt", "");
+            String[] splitNames = fileName.split("_");
+            Spannable spannable = null;
+            if (splitNames.length == 3) {
+                String errorMsgType = splitNames[2];
+                if (!TextUtils.isEmpty(errorMsgType)) {
+                    spannable = Spannable.Factory.getInstance().newSpannable(fileName);
+                    spannable = MSpannableUtils.addNewSpanable(context, spannable, fileName, errorMsgType, Color.parseColor("#FF0006"), 0);
+                }
+            }
+            if (spannable != null) {
+                myViewHolder.tv_title.setText(spannable);
+            } else {
+                myViewHolder.tv_title.setText(fileName);
+            }
 
 
             if (mOnItemClickLitener != null) {
@@ -82,14 +105,14 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView textView;
-        private TextView textView_path;
+        private TextView tv_title;
+        private TextView tv_path;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            textView = (TextView) itemView.findViewById(R.id.textView);
-            textView_path = (TextView) itemView.findViewById(R.id.textView_path);
+            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
+            tv_path = (TextView) itemView.findViewById(R.id.tv_path);
 
         }
     }

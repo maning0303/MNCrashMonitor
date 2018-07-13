@@ -31,6 +31,7 @@ import com.maning.librarycrashmonitor.utils.MBitmapUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
 import com.maning.librarycrashmonitor.utils.MScreenShotUtil;
 import com.maning.librarycrashmonitor.utils.MShareUtil;
+import com.maning.librarycrashmonitor.utils.MSpannableUtils;
 
 import java.io.File;
 import java.util.List;
@@ -94,7 +95,7 @@ public class CrashDetailsActivity extends CrashBaseActivity {
                 //获取文件夹名字匹配异常信息高亮显示
                 File file = new File(filePath);
                 String[] splitNames = file.getName().replace(".txt", "").split("_");
-                if (splitNames.length >= 3) {
+                if (splitNames.length == 3) {
                     String errorMsg = splitNames[2];
                     if (!TextUtils.isEmpty(errorMsg)) {
                         matchErrorInfo = errorMsg;
@@ -109,31 +110,32 @@ public class CrashDetailsActivity extends CrashBaseActivity {
                 activitiesClass = MActivityListUtil.getActivitiesClass(context, getPackageName(), null);
 
                 //富文本显示
-                final Spannable spannable = Spannable.Factory.getInstance().newSpannable(crashContent);
+                Spannable spannable = Spannable.Factory.getInstance().newSpannable(crashContent);
 
                 //匹配错误信息
                 if (!TextUtils.isEmpty(matchErrorInfo)) {
-                    addNewSpanable(spannable, matchErrorInfo, Color.parseColor("#FF0006"), 18);
+                    spannable = MSpannableUtils.addNewSpanable(context, spannable, crashContent, matchErrorInfo, Color.parseColor("#FF0006"), 18);
                 }
 
                 //匹配包名
                 String packageName = getPackageName();
-                addNewSpanable(spannable, packageName, Color.parseColor("#0070BB"), 0);
+                spannable = MSpannableUtils.addNewSpanable(context, spannable, crashContent, packageName, Color.parseColor("#0070BB"), 0);
 
                 //匹配Activity
                 if (activitiesClass != null && activitiesClass.size() > 0) {
                     for (int i = 0; i < activitiesClass.size(); i++) {
-                        addNewSpanable(spannable, activitiesClass.get(i).getSimpleName(), Color.parseColor("#55BB63"), 16);
+                        spannable = MSpannableUtils.addNewSpanable(context, spannable, crashContent, activitiesClass.get(i).getSimpleName(), Color.parseColor("#55BB63"), 16);
                     }
                 }
 
                 //主线程处理
+                final Spannable finalSpannable = spannable;
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (textView != null) {
                             try {
-                                textView.setText(spannable);
+                                textView.setText(finalSpannable);
                             } catch (Exception e) {
                                 textView.setText(crashContent);
                             }
@@ -142,40 +144,6 @@ public class CrashDetailsActivity extends CrashBaseActivity {
                 });
             }
         }).start();
-    }
-
-    /**
-     * 添加富文本
-     *
-     * @param spannable
-     * @param matchContent    需要匹配的文本
-     * @param foregroundColor 改变颜色
-     * @param textSize        文字大小
-     */
-    private void addNewSpanable(Spannable spannable, String matchContent, @ColorInt int foregroundColor, int textSize) {
-        Pattern pattern = Pattern.compile(Pattern.quote(matchContent));
-        Matcher matcher = pattern.matcher(crashContent);
-        while (matcher.find()) {
-            int start = matcher.start();
-            if (start >= 0) {
-                int end = start + matchContent.length();
-                if (textSize > 0) {
-                    spannable.setSpan(new AbsoluteSizeSpan(sp2px(textSize)), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-                }
-                spannable.setSpan(new ForegroundColorSpan(foregroundColor), start, end, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            }
-        }
-    }
-
-    /**
-     * sp 转 px
-     *
-     * @param spValue sp 值
-     * @return px 值
-     */
-    public int sp2px(final float spValue) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * fontScale + 0.5f);
     }
 
     /**

@@ -189,6 +189,12 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ```
 
 ### 版本记录:
+
+    V1.0.8:
+        1.优化文件命名，添加错误类型
+        2.文件列表排序采用修改时间
+        3.日志详情高亮显示崩溃类型，包名，和Activity类名
+        4.长按可以删除单个日志
     
     V1.0.7:
         1.修复详情页返回失效问题
@@ -196,11 +202,6 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
     
 
 ## 喜欢就Star一下吧.
-
-## 感谢:
-##### [StatusBarUtil](https://github.com/laobie/StatusBarUtil)
-##### [NotifyUtil](https://github.com/wenmingvs/NotifyUtil)
-##### [AndroidUtilCode](https://github.com/Blankj/AndroidUtilCode)
 
 
 ## 推荐:
