@@ -24,7 +24,7 @@ public class MCrashMonitor {
      */
     public static void init(Context context) {
         MCrashHandler crashHandler = MCrashHandler.getInstance();
-        crashHandler.init(context);
+        crashHandler.init(context, false, null);
     }
 
     /**
@@ -35,7 +35,7 @@ public class MCrashMonitor {
      */
     public static void init(Context context, boolean isDebug) {
         MCrashHandler crashHandler = MCrashHandler.getInstance();
-        crashHandler.init(context, isDebug);
+        crashHandler.init(context, isDebug, null);
     }
 
     /**
@@ -46,7 +46,7 @@ public class MCrashMonitor {
      */
     public static void init(Context context, MCrashCallBack crashCallBacks) {
         MCrashHandler crashHandler = MCrashHandler.getInstance();
-        crashHandler.init(context, crashCallBacks);
+        crashHandler.init(context, false, crashCallBacks);
     }
 
     /**

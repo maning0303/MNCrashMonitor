@@ -1,5 +1,5 @@
 # MNCrashMonitor
-MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调试方便,测试人员可以随时给程序猿查看日志详情,可以动态添加日志内容,手机直接查看日志内容可以分享,复制,生成长截图。
+MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调试方便,测试人员可以随时给程序猿查看日志详情,可以动态添加日志内容,手机直接查看日志内容可以分享,复制,生成长截图，高亮显示。
 [![](https://jitpack.io/v/maning0303/MNCrashMonitor.svg)](https://jitpack.io/#maning0303/MNCrashMonitor)
 
 ## 截图
@@ -7,8 +7,8 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_001.jpg)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_002.png)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_003.png)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_004.jpg)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_005.jpg)
+![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_004.png)
+![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_005.png)
 
 
 ## 如何添加
@@ -27,7 +27,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.7'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.8'
    	}
    ```
 
@@ -165,7 +165,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 
 ```
 
-### 文件的位置:
+### 日志文件的位置:
 ``` java
 
     /Android/data/包名/cache/crashLogs/
@@ -193,7 +193,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
     V1.0.8:
         1.优化文件命名，添加错误类型
         2.文件列表排序采用修改时间
-        3.日志详情高亮显示崩溃类型，包名，和Activity类名
+        3.日志列表和详情高亮显示崩溃类型，包名，和Activity类名
         4.长按可以删除单个日志
     
     V1.0.7:
