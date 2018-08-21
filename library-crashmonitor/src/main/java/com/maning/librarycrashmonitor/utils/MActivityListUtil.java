@@ -31,31 +31,21 @@ public class MActivityListUtil {
 
         List<Class> returnClassList = new ArrayList<Class>();
         try {
-            //Get all activity classes in the AndroidManifest.xml
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             if (packageInfo.activities != null) {
-                Log.d(TAG, "Found " + packageInfo.activities.length + " activity in the AndrodiManifest.xml");
                 for (ActivityInfo ai : packageInfo.activities) {
                     Class c;
                     try {
                         c = Class.forName(ai.name);
-                        // Maybe isAssignableFrom is unnecessary
                         if (Activity.class.isAssignableFrom(c)) {
                             returnClassList.add(c);
-                            Log.d(TAG, ai.name + "...OK");
                         }
                     } catch (ClassNotFoundException e) {
-                        Log.d(TAG, "Class Not Found:" + ai.name);
                     }
                 }
-                Log.d(TAG, "Filter out, left " + returnClassList.size() + " activity," + Arrays.toString(returnClassList.toArray()));
-
-                //Exclude some activity classes
                 if (excludeList != null) {
                     returnClassList.removeAll(excludeList);
-                    Log.d(TAG, "Exclude " + excludeList.size() + " activity," + Arrays.toString(excludeList.toArray()));
                 }
-                Log.d(TAG, "Return " + returnClassList.size() + " activity," + Arrays.toString(returnClassList.toArray()));
             }
         } catch (Exception e) {
             e.printStackTrace();
