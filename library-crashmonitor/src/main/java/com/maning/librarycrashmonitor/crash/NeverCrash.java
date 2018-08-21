@@ -25,7 +25,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * 永生
+ * 永生，暂时还没有用到
+ * 引用github:https://github.com/jenly1314/NeverCrash
  */
 public class NeverCrash {
 
