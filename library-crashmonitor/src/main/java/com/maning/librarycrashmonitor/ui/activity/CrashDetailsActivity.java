@@ -29,6 +29,7 @@ import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.utils.MActivityListUtil;
 import com.maning.librarycrashmonitor.utils.MBitmapUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
+import com.maning.librarycrashmonitor.utils.MPermission5Utils;
 import com.maning.librarycrashmonitor.utils.MScreenShotUtil;
 import com.maning.librarycrashmonitor.utils.MShareUtil;
 import com.maning.librarycrashmonitor.utils.MSpannableUtils;
@@ -191,7 +192,12 @@ public class CrashDetailsActivity extends CrashBaseActivity {
                     saveScreenShot();
                 }
             } else {
-                saveScreenShot();
+                //6.0之下判断有没有权限
+                if(MPermission5Utils.hasWritePermission()){
+                    saveScreenShot();
+                }else{
+                    Toast.makeText(context, "缺少存储权限", Toast.LENGTH_SHORT).show();
+                }
             }
             return true;
         }

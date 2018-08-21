@@ -60,4 +60,7 @@ public class CrashShowActivity extends CrashBaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+    }
 }

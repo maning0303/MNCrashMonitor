@@ -22,6 +22,16 @@
         <activity
             android:name=".ui.activity.CrashBaseActivity"
             android:theme="@style/MCrashAppTheme" />
+
+        <provider
+            android:name="com.maning.librarycrashmonitor.utils.MCrashFileProvider"
+            android:authorities="${applicationId}.crashFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/m_crash_file_provider" />
+        </provider>
     </application>
 
 </manifest>
