@@ -27,6 +27,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
+   	     (support 包版本随意)
    	     compile 'com.android.support:appcompat-v7:26.1.0'
          compile 'com.android.support:recyclerview-v7:26.1.0'
          compile 'com.android.support:design:26.1.0'
