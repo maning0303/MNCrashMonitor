@@ -27,7 +27,7 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
    #### 2.在app目录下的build.gradle中添加依赖
    ``` gradle
    	dependencies {
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.8'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.9'
    	}
    ```
 
@@ -189,6 +189,10 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ```
 
 ### 版本记录:
+    V1.0.9:
+        1.修复7.0 FileUriExposedException 分享功能报错问题
+        2.文件权限适配6.0之下版本
+        3.gradle3.0升级，implementation替换compile,防止依赖冲突
 
     V1.0.8:
         1.优化文件命名，添加错误类型
