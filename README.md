@@ -15,26 +15,26 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
    ### Gradle添加：
    #### 1.在Project的build.gradle中添加仓库地址
 
-   ``` gradle
+``` gradle
    	allprojects {
    		repositories {
    			...
    			maven { url "https://jitpack.io" }
    		}
    	}
-   ```
+```
 
    #### 2.在app目录下的build.gradle中添加依赖
-   ``` gradle
+``` gradle
    	dependencies {
    	     (support 包版本随意)
    	     compile 'com.android.support:appcompat-v7:26.1.0'
-         compile 'com.android.support:recyclerview-v7:26.1.0'
-         compile 'com.android.support:design:26.1.0'
-         compile 'com.android.support:support-v4:26.1.0'
+   	     compile 'com.android.support:recyclerview-v7:26.1.0'
+   	     compile 'com.android.support:design:26.1.0'
+   	     compile 'com.android.support:support-v4:26.1.0'
    	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.9'
    	}
-   ```
+```
 
 ## 使用方法:
 ### 1.Application 的 onCreate()方法 初始化：
