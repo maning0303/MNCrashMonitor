@@ -45,7 +45,8 @@ public class MCrashHandler implements UncaughtExceptionHandler {
     /**
      * 时间转换
      */
-    private static final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒", Locale.CHINA);
+//    private static final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyy年MM月dd日HH时mm分ss秒", Locale.CHINA);
+    private static final SimpleDateFormat dataFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
     /**
      * log文件的后缀名
      */
@@ -194,7 +195,8 @@ public class MCrashHandler implements UncaughtExceptionHandler {
                 cause = cause.getCause();
             }
             //重新命名文件
-            String newName = "V" + versionName + "_" + crashTime + "_" + ex.toString() + FILE_NAME_SUFFIX;
+            String splitEx = ex.toString().split(":")[0];
+            String newName = "V" + versionName + "_" + crashTime + "_" + splitEx + FILE_NAME_SUFFIX;
             File newFile = new File(dir, newName);
             MFileUtils.renameFile(file.getPath(), newFile.getPath());
         } catch (Exception e) {
