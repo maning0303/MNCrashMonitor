@@ -1,17 +1,8 @@
 package com.maning.crashmonitor;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,10 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.maning.librarycrashmonitor.MCrashMonitor;
-import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
-import com.maning.librarycrashmonitor.utils.MActivityListUtil;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -83,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_log_list:
                 //打开日志列表
-                MCrashMonitor.startCrashListPage(this);
+                MCrashMonitor.startCrashListPage(mContext);
                 break;
             case R.id.btn_next_page:
-                startActivity(new Intent(this, SecondActivity.class));
+                startActivity(new Intent(mContext, SecondActivity.class));
                 break;
             case R.id.btn_add_extra_info:
                 String extraInfo = "用户手机号码：16666666666" +

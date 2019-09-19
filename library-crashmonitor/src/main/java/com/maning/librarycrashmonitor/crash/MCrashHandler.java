@@ -8,19 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.maning.librarycrashmonitor.MCrashMonitor;
 import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.listener.MCrashCallBack;
-import com.maning.librarycrashmonitor.MCrashMonitor;
 import com.maning.librarycrashmonitor.ui.activity.CrashListActivity;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
 
