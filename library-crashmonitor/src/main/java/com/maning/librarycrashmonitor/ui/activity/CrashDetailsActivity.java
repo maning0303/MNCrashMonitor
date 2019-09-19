@@ -325,7 +325,7 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
             //分享
             MShareUtil.shareFile(context, destFile);
         } else {
-            Toast.makeText(context, "分享失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "文件保存失败", Toast.LENGTH_SHORT).show();
         }
     }
 }
