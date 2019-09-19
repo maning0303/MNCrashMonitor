@@ -6,7 +6,6 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_001.jpg)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_002.png)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_003.png)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_004.png)
 ![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_005.png)
 
@@ -28,10 +27,10 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ``` gradle
    	dependencies {
    	     (support 包版本随意)
-   	     compile 'com.android.support:support-v4:26.1.0'
-   	     compile 'com.android.support:appcompat-v7:26.1.0'
-   	     compile 'com.android.support:recyclerview-v7:26.1.0'
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.1.1'
+   	     implementation 'com.android.support:support-v4:26.1.0'
+   	     implementation 'com.android.support:appcompat-v7:26.1.0'
+   	     implementation 'com.android.support:recyclerview-v7:26.1.0'
+   	     implementation 'com.github.maning0303:MNCrashMonitor:V1.1.1'
    	}
 ```
 
