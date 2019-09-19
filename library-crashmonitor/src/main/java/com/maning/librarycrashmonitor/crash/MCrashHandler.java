@@ -144,6 +144,9 @@ public class MCrashHandler implements UncaughtExceptionHandler {
             System.exit(10);
         }
 
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(10);
+
     }
 
     /**
@@ -260,20 +263,20 @@ public class MCrashHandler implements UncaughtExceptionHandler {
             PendingIntent pIntent = PendingIntent.getActivity(mContext,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             Bitmap crash_ic_notify =  BitmapFactory.decodeResource(mContext.getResources(), R.drawable.crash_ic_notify);
-            //通知
-            NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            Notification notification = new NotificationCompat.Builder(mContext)
-                    .setContentText(content)
-                    .setAutoCancel(true)
-                    .setContentTitle("Crash通知:" + crashTime)
-                    .setSmallIcon(R.drawable.crash_ic_notify)
-                    .setLargeIcon(crash_ic_notify)
-                    .setWhen(System.currentTimeMillis())
-                    .setContentIntent(pIntent)
-                    .build();
-            if (manager != null) {
-                manager.notify(10010, notification);
-            }
+//            //通知
+//            NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+//            Notification notification = new NotificationCompat.Builder(mContext)
+//                    .setContentText(content)
+//                    .setAutoCancel(true)
+//                    .setContentTitle("Crash通知:" + crashTime)
+//                    .setSmallIcon(R.drawable.crash_ic_notify)
+//                    .setLargeIcon(crash_ic_notify)
+//                    .setWhen(System.currentTimeMillis())
+//                    .setContentIntent(pIntent)
+//                    .build();
+//            if (manager != null) {
+//                manager.notify(10010, notification);
+//            }
         } catch (Exception e) {
 
         }

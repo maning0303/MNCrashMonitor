@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -161,67 +162,31 @@ public class MScreenShotUtil {
         return bitmap;
     }
 
+
     /**
-     * ListView 截屏
+     * View to bitmap.
      *
-     * @param listView
-     * @param context
-     * @return
+     * @param view The view.
+     * @return bitmap
      */
-    public static Bitmap createBitmap(ListView listView, Context context) {
-        int titleHeight, width, height, rootHeight = 0;
-        Bitmap bitmap;
-        Canvas canvas;
-        int yPos = 0;
-        int listItemNum;
-        List<View> childViews = null;
-
-        width = getDisplayMetrics(context)[0];//宽度等于屏幕宽
-
-        ListAdapter listAdapter = listView.getAdapter();
-        listItemNum = listAdapter.getCount();
-        childViews = new ArrayList<View>(listItemNum);
-        View itemView;
-        //计算整体高度:
-        for (int pos = 0; pos < listItemNum; ++pos) {
-            itemView = listAdapter.getView(pos, null, listView);
-            //measure过程
-            itemView.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            childViews.add(itemView);
-            rootHeight += itemView.getMeasuredHeight();
+    public static Bitmap view2Bitmap(final View view) {
+        if (view == null) {
+            return null;
         }
-
-        height = rootHeight;
-        // 创建对应大小的bitmap
-        bitmap = Bitmap.createBitmap(listView.getWidth(), height,
+        Bitmap ret = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(),
                 Bitmap.Config.ARGB_8888);
-        //bitmap = BitmapUtil.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        canvas = new Canvas(bitmap);
-
-        Bitmap itemBitmap;
-        int childHeight;
-        //把每个ItemView生成图片，并画到背景画布上
-        for (int pos = 0; pos < childViews.size(); ++pos) {
-            itemView = childViews.get(pos);
-            childHeight = itemView.getMeasuredHeight();
-            itemBitmap = viewToBitmap(itemView, width, childHeight);
-            if (itemBitmap != null) {
-                canvas.drawBitmap(itemBitmap, 0, yPos, null);
-            }
-            yPos = childHeight + yPos;
+        Canvas canvas = new Canvas(ret);
+        Drawable bgDrawable = view.getBackground();
+        if (bgDrawable != null) {
+            bgDrawable.draw(canvas);
+        } else {
+            canvas.drawColor(Color.WHITE);
         }
-
-        canvas.save(Canvas.ALL_SAVE_FLAG);
-        canvas.restore();
-        return bitmap;
+        view.draw(canvas);
+        return ret;
     }
 
-    private static Bitmap viewToBitmap(View view, int viewWidth, int viewHeight) {
-        view.layout(0, 0, viewWidth, viewHeight);
-        view.buildDrawingCache();
-        Bitmap bitmap = view.getDrawingCache();
-        return bitmap;
-    }
 
     /**
      * 压缩图片

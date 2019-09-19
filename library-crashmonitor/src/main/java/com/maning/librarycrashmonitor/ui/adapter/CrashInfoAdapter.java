@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class CrashInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = layoutInflater.inflate(R.layout.item_crash, parent, false);
+        View inflate = layoutInflater.inflate(R.layout.item_mncrash, parent, false);
         return new MyViewHolder(inflate);
     }
 

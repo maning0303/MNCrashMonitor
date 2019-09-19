@@ -1,6 +1,8 @@
 package com.maning.librarycrashmonitor.utils;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 /**
  * @author : maning
@@ -17,6 +19,18 @@ public class MSizeUtils {
     public static int sp2px(Context context, final float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public static int getScreenWidth(Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        return dm.widthPixels;
+    }
+
+    public static int getScreenHeight(Context context) {
+        Resources resources = context.getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        return dm.heightPixels;
     }
 
 }
