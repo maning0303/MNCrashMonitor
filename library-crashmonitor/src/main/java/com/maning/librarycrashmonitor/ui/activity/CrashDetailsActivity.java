@@ -1,5 +1,6 @@
 package com.maning.librarycrashmonitor.ui.activity;
 
+import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ClipData;
@@ -8,9 +9,12 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +30,7 @@ import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.utils.MActivityListUtil;
 import com.maning.librarycrashmonitor.utils.MBitmapUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
+import com.maning.librarycrashmonitor.utils.MPermission5Utils;
 import com.maning.librarycrashmonitor.utils.MScreenShotUtil;
 import com.maning.librarycrashmonitor.utils.MShareUtil;
 import com.maning.librarycrashmonitor.utils.MSizeUtils;
@@ -182,7 +187,7 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == 10086) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                saveScreenShot();
+                shareLogs();
             } else {
                 Toast.makeText(context, "权限已拒绝", Toast.LENGTH_SHORT).show();
             }
@@ -283,8 +288,23 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
         if (i == R.id.btn_back) {
             finish();
         } else if (i == R.id.btn_share) {
-            //分享
-            MShareUtil.shareFile(context, new File(filePath));
+            //先把文件转移到外部存储文件
+            //请求权限
+            //检查版本是否大于M
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10086);
+                } else {
+                    shareLogs();
+                }
+            } else {
+                //6.0之下判断有没有权限
+                if (MPermission5Utils.hasWritePermission()) {
+                    shareLogs();
+                } else {
+                    Toast.makeText(context, "缺少存储权限", Toast.LENGTH_SHORT).show();
+                }
+            }
         } else if (i == R.id.btn_copy) {
             //复制
             putTextIntoClip();
@@ -292,22 +312,20 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
         } else if (i == R.id.btn_screenshot) {
             //直接保存
             saveScreenShot();
-//            //请求权限
-//            //检查版本是否大于M
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10086);
-//                } else {
-//                    saveScreenShot();
-//                }
-//            } else {
-//                //6.0之下判断有没有权限
-//                if (MPermission5Utils.hasWritePermission()) {
-//                    saveScreenShot();
-//                } else {
-//                    Toast.makeText(context, "缺少存储权限", Toast.LENGTH_SHORT).show();
-//                }
-//            }
+        }
+    }
+
+    private void shareLogs() {
+        //先把文件转移到外部存储文件
+        File srcFile = new File(filePath);
+        String destFilePath = MFileUtils.getCrashSharePath() + "/CrashShare.txt";
+        File destFile = new File(destFilePath);
+        boolean copy = MFileUtils.copyFile(srcFile, destFile);
+        if (copy) {
+            //分享
+            MShareUtil.shareFile(context, destFile);
+        } else {
+            Toast.makeText(context, "分享失败", Toast.LENGTH_SHORT).show();
         }
     }
 }

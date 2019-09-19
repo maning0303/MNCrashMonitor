@@ -3,12 +3,18 @@ package com.maning.librarycrashmonitor.utils;
 import android.content.Context;
 import android.os.Environment;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +37,15 @@ public class MFileUtils {
 
     public static String getCrashPicPath(Context context) {
         String path = getCachePath(context) + File.separator + "crashPics";
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return path;
+    }
+
+    public static String getCrashSharePath() {
+        String path = Environment.getExternalStorageDirectory() + "";
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
@@ -156,6 +171,74 @@ public class MFileUtils {
         File newFile = new File(newPath);
         //执行重命名
         oleFile.renameTo(newFile);
+    }
+
+    /**
+     * 根据文件路径拷贝文件
+     *
+     * @param src  源文件
+     * @param dest 目标文件
+     * @return boolean 成功true、失败false
+     */
+    public static boolean copyFile(File src, File dest) {
+        boolean result = false;
+        if ((src == null) || (dest == null)) {
+            return result;
+        }
+        if (dest.exists()) {
+            dest.delete(); // delete file
+        }
+        if (!createOrExistsDir(dest.getParentFile())) {
+            return false;
+        }
+        try {
+            dest.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        FileChannel srcChannel = null;
+        FileChannel dstChannel = null;
+
+        try {
+            srcChannel = new FileInputStream(src).getChannel();
+            dstChannel = new FileOutputStream(dest).getChannel();
+            srcChannel.transferTo(0, srcChannel.size(), dstChannel);
+            result = true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return result;
+        }
+        try {
+            srcChannel.close();
+            dstChannel.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * Delete the file.
+     *
+     * @param file The file.
+     * @return {@code true}: success<br>{@code false}: fail
+     */
+    public static boolean deleteFile(final File file) {
+        return file != null && (!file.exists() || file.isFile() && file.delete());
+    }
+
+    /**
+     * Create a directory if it doesn't exist, otherwise do nothing.
+     *
+     * @param file The file.
+     * @return {@code true}: exists or creates successfully<br>{@code false}: otherwise
+     */
+    public static boolean createOrExistsDir(final File file) {
+        return file != null && (file.exists() ? file.isDirectory() : file.mkdirs());
     }
 
 
