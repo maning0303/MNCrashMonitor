@@ -1,6 +1,7 @@
 package com.maning.librarycrashmonitor.crash;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,8 +10,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -250,6 +253,8 @@ public class MCrashHandler implements UncaughtExceptionHandler {
         MCrashMonitor.startCrashShowPage(mContext);
     }
 
+    private int notyfyId = 1;
+
     /**
      * 显示通知
      *
@@ -262,23 +267,35 @@ public class MCrashHandler implements UncaughtExceptionHandler {
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent pIntent = PendingIntent.getActivity(mContext,
                     0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            Bitmap crash_ic_notify =  BitmapFactory.decodeResource(mContext.getResources(), R.drawable.crash_ic_notify);
-//            //通知
-//            NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-//            Notification notification = new NotificationCompat.Builder(mContext)
-//                    .setContentText(content)
-//                    .setAutoCancel(true)
-//                    .setContentTitle("Crash通知:" + crashTime)
-//                    .setSmallIcon(R.drawable.crash_ic_notify)
-//                    .setLargeIcon(crash_ic_notify)
-//                    .setWhen(System.currentTimeMillis())
-//                    .setContentIntent(pIntent)
-//                    .build();
-//            if (manager != null) {
-//                manager.notify(10010, notification);
-//            }
+            //通知
+            Notification.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                builder = new Notification.Builder(mContext, "CrashMonitor");
+            } else {
+                builder = new Notification.Builder(mContext);
+            }
+            Notification notification = builder
+                    .setContentTitle("Crash通知:" + crashTime)
+                    .setContentText(content)
+                    .setAutoCancel(true)
+                    .setSmallIcon(R.drawable.crash_ic_notify)
+                    .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.crash_ic_notify))
+                    .setWhen(System.currentTimeMillis())
+                    .setContentIntent(pIntent)
+                    .build();
+            NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                //创建 通知通道
+                NotificationChannel channel = new NotificationChannel("CrashMonitor", "CrashMonitor", NotificationManager.IMPORTANCE_DEFAULT);
+                channel.enableLights(true);
+                channel.setLightColor(Color.YELLOW);
+                channel.setShowBadge(false);
+                notificationManager.createNotificationChannel(channel);
+            }
+            notificationManager.notify(notyfyId, notification);
+            notyfyId++;
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
