@@ -29,8 +29,8 @@ public class MFileUtils {
         return path;
     }
 
-    public static String getCrashPicPath() {
-        String path = Environment.getExternalStorageDirectory() + "";
+    public static String getCrashPicPath(Context context) {
+        String path = getCachePath(context) + File.separator + "crashPics";
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();

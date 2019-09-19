@@ -28,11 +28,10 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ``` gradle
    	dependencies {
    	     (support 包版本随意)
+   	     compile 'com.android.support:support-v4:26.1.0'
    	     compile 'com.android.support:appcompat-v7:26.1.0'
    	     compile 'com.android.support:recyclerview-v7:26.1.0'
-   	     compile 'com.android.support:design:26.1.0'
-   	     compile 'com.android.support:support-v4:26.1.0'
-   	     compile 'com.github.maning0303:MNCrashMonitor:V1.0.9'
+   	     compile 'com.github.maning0303:MNCrashMonitor:V1.1.0'
    	}
 ```
 
@@ -72,7 +71,6 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ``` java
 
         /**
-         * Created by maning on 2017/4/20.
          * 主类
          */
         public class MCrashMonitor {
@@ -182,7 +180,9 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ### 生成截图的位置:
 ``` java
 
-    Environment.getExternalStorageDirectory() + "/crash_pic_" + System.currentTimeMillis() + ".jpg"
+    /Android/data/包名/cache/crashPics/
+    或者
+    /data/data/包名/cache/crashPics/
 
 ```
 
@@ -194,6 +194,11 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ```
 
 ### 版本记录:
+    V1.1.0:
+        1.修复通知栏不显示问题
+        2.生成截图添加动画显示，截图保存位置更换data/包名/cache/crashPics/
+        3.优化v4,v7包添加方式，去掉design包
+
     V1.0.9:
         1.修复7.0 FileUriExposedException 分享功能报错问题
         2.文件权限适配6.0之下版本

@@ -1,6 +1,5 @@
 package com.maning.librarycrashmonitor.ui.activity;
 
-import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.ClipData;
@@ -9,12 +8,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.view.View;
@@ -30,7 +26,6 @@ import com.maning.librarycrashmonitor.R;
 import com.maning.librarycrashmonitor.utils.MActivityListUtil;
 import com.maning.librarycrashmonitor.utils.MBitmapUtil;
 import com.maning.librarycrashmonitor.utils.MFileUtils;
-import com.maning.librarycrashmonitor.utils.MPermission5Utils;
 import com.maning.librarycrashmonitor.utils.MScreenShotUtil;
 import com.maning.librarycrashmonitor.utils.MShareUtil;
 import com.maning.librarycrashmonitor.utils.MSizeUtils;
@@ -104,9 +99,11 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
     }
 
     private void initDatas() {
+        showProgressLoading("加载中...");
         new Thread(new Runnable() {
             @Override
             public void run() {
+                dismissProgressLoading();
                 //获取文件夹名字匹配异常信息高亮显示
                 File file = new File(filePath);
                 String[] splitNames = file.getName().replace(".txt", "").split("_");
@@ -204,7 +201,7 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
             @Override
             public void run() {
                 if (bitmap != null) {
-                    String crashPicPath = MFileUtils.getCrashPicPath() + "/crash_pic_" + System.currentTimeMillis() + ".jpg";
+                    String crashPicPath = MFileUtils.getCrashPicPath(context) + "/crash_pic_" + System.currentTimeMillis() + ".jpg";
                     boolean saveBitmap = MBitmapUtil.saveBitmap(context, bitmap, crashPicPath);
                     if (saveBitmap) {
                         showToast("保存截图成功，请到相册查看\n路径：" + crashPicPath);
@@ -293,22 +290,24 @@ public class CrashDetailsActivity extends CrashBaseActivity implements View.OnCl
             putTextIntoClip();
             Toast.makeText(context, "复制内容成功", Toast.LENGTH_SHORT).show();
         } else if (i == R.id.btn_screenshot) {
-            //请求权限
-            //检查版本是否大于M
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10086);
-                } else {
-                    saveScreenShot();
-                }
-            } else {
-                //6.0之下判断有没有权限
-                if (MPermission5Utils.hasWritePermission()) {
-                    saveScreenShot();
-                } else {
-                    Toast.makeText(context, "缺少存储权限", Toast.LENGTH_SHORT).show();
-                }
-            }
+            //直接保存
+            saveScreenShot();
+//            //请求权限
+//            //检查版本是否大于M
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 10086);
+//                } else {
+//                    saveScreenShot();
+//                }
+//            } else {
+//                //6.0之下判断有没有权限
+//                if (MPermission5Utils.hasWritePermission()) {
+//                    saveScreenShot();
+//                } else {
+//                    Toast.makeText(context, "缺少存储权限", Toast.LENGTH_SHORT).show();
+//                }
+//            }
         }
     }
 }
