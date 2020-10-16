@@ -1,5 +1,5 @@
 # MNCrashMonitor
-MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调试方便,测试人员可以随时给程序猿查看日志详情,可以动态添加日志内容,手机直接查看日志内容可以分享,复制,生成长截图，高亮显示。
+MNCrashMonitor（支持AndroidX） 监听程序崩溃日志,直接页面展示崩溃日志列表,调试方便,测试人员可以随时给程序猿查看日志详情,可以动态添加日志内容,手机直接查看日志内容可以分享,复制,生成长截图，高亮显示。
 [![](https://jitpack.io/v/maning0303/MNCrashMonitor.svg)](https://jitpack.io/#maning0303/MNCrashMonitor)
 
 ## 截图
@@ -26,7 +26,14 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
    #### 2.在app目录下的build.gradle中添加依赖
 ``` gradle
    	dependencies {
-   	     (support 包版本随意)
+   	     //AndroidX
+   	     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+         implementation 'androidx.appcompat:appcompat:1.2.0'
+         implementation 'androidx.recyclerview:recyclerview:1.1.0'
+   	     implementation 'com.github.maning0303:MNCrashMonitor:V1.2.0'
+
+
+   	     //support版本,后期不在更新,请尽快升级到AndroidX
    	     implementation 'com.android.support:support-v4:26.1.0'
    	     implementation 'com.android.support:appcompat-v7:26.1.0'
    	     implementation 'com.android.support:recyclerview-v7:26.1.0'
@@ -193,6 +200,9 @@ MNCrashMonitor 监听程序崩溃日志,直接页面展示崩溃日志列表,调
 ```
 
 ### 版本记录:
+  V1.2.0:
+        1.升级到AndroidX
+
     V1.1.1:
         1.优化代码，修复文件分享失败问题
 
