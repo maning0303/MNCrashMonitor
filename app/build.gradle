@@ -24,7 +24,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    implementation project(':library-crashmonitor')
-//    implementation ('com.github.maning0303:MNCrashMonitor:V1.1.1')
+    implementation ('com.github.maning0303:MNCrashMonitor:V1.2.0')
+//    implementation project(':library-crashmonitor')
 
 }
