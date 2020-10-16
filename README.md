@@ -25,20 +25,18 @@ MNCrashMonitor（支持AndroidX） 监听程序崩溃日志,直接页面展示�
 
    #### 2.在app目录下的build.gradle中添加依赖
 ``` gradle
-   	dependencies {
-   	     //AndroidX
-   	     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-         implementation 'androidx.appcompat:appcompat:1.2.0'
-         implementation 'androidx.recyclerview:recyclerview:1.1.0'
-   	     implementation 'com.github.maning0303:MNCrashMonitor:V1.2.0'
+        //AndroidX
+        implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+        implementation 'androidx.appcompat:appcompat:1.2.0'
+        implementation 'androidx.recyclerview:recyclerview:1.1.0'
+        implementation 'com.github.maning0303:MNCrashMonitor:V1.2.0'
 
 
-   	     //support版本,后期不在更新,请尽快升级到AndroidX
-   	     implementation 'com.android.support:support-v4:26.1.0'
-   	     implementation 'com.android.support:appcompat-v7:26.1.0'
-   	     implementation 'com.android.support:recyclerview-v7:26.1.0'
-   	     implementation 'com.github.maning0303:MNCrashMonitor:V1.1.1'
-   	}
+        //support版本,后期不在更新,请尽快升级到AndroidX,源码请查看support分支
+        implementation 'com.android.support:support-v4:26.1.0'
+        implementation 'com.android.support:appcompat-v7:26.1.0'
+        implementation 'com.android.support:recyclerview-v7:26.1.0'
+        implementation 'com.github.maning0303:MNCrashMonitor:V1.1.1'
 ```
 
 ## 使用方法:
