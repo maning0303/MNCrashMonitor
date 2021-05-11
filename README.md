@@ -4,10 +4,12 @@ MNCrashMonitor（支持AndroidX） 监听程序崩溃日志,直接页面展示�
 
 ## 截图
 
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_001.jpg)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_002.png)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_004.png)
-![](https://github.com/maning0303/CrashMonitor/raw/master/screenshots/crash_005.png)
+<div align="center">
+<img src = "screenshots/crash_001.jpg" width=200 >
+<img src = "screenshots/crash_002.png" width=200 >
+<img src = "screenshots/crash_003.png" width=200 >
+<img src = "screenshots/crash_004.png" width=200 >
+</div>
 
 
 ## 如何添加
